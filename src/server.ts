@@ -11,7 +11,7 @@ const schema = buildSchema(`
 
 // The root provides a resolver function for each API endpoint
 const root = {
-  hello: () => {
+  hello: (): string => {
     return 'Hello world!';
   },
 };
@@ -25,9 +25,7 @@ app.use(
     schema: schema,
     rootValue: root,
     graphiql: true,
-  })
+  }),
 );
 
-app.listen(port, () =>
-  console.log(`Example app listening at http://localhost:${port}`)
-);
+app.listen(port, (): void => console.log(`Example app listening at http://localhost:${port}`));
