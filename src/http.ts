@@ -6,10 +6,6 @@ const axiosInstance = axios.create({
   baseURL: POKE_API_BASE_URL,
 });
 
-// axiosInstance.interceptors.response.use((response) => {
-//   return response.data;
-// });
-
 export function get<T>(url: string): Promise<T> {
   return axiosInstance.get(url).then((res: AxiosResponse<T>) => res.data);
 }
