@@ -17,7 +17,7 @@ class DataService {
     });
   }
 
-  set<T>(k: string, v: T) {
+  set<T>(k: string, v: T): void {
     redisSet(k, JSON.stringify(v));
   }
 }
