@@ -9,13 +9,13 @@ class Pokemon {
   name: string;
 
   @Field(() => Int)
-  base_experience: number;
+  baseExperience: number;
 
   @Field(() => Int)
   height: number;
 
   @Field()
-  is_default: boolean;
+  isDefault: boolean;
 
   @Field(() => Int)
   order: number;
