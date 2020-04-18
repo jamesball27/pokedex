@@ -1,8 +1,17 @@
-import { Resolver, Query, Arg } from 'type-graphql';
+import { Resolver, Query, Field, Int, ArgsType, Args } from 'type-graphql';
+import { Min, Max } from 'class-validator';
 
 import Pokemon from '../types/Pokemon';
 import PokemonService from '../services/PokemonService';
 import PokemonType from '../types/Pokemon';
+
+@ArgsType()
+class PokemonArgs {
+  @Field(() => Int, { nullable: false })
+  @Min(1)
+  @Max(151)
+  id: number;
+}
 
 @Resolver()
 class PokemonResolver {
@@ -14,7 +23,7 @@ class PokemonResolver {
   }
 
   @Query(() => Pokemon)
-  async pokemon(@Arg('id', { nullable: false }) id: number): Promise<PokemonType> {
+  async pokemon(@Args() { id }: PokemonArgs): Promise<PokemonType> {
     return this.pokemonService.get(id);
   }
 }

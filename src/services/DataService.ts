@@ -7,20 +7,19 @@ class DataService {
   async get<T>(key: string): Promise<T> {
     const value = await redisGet(key);
     if (value) {
-      console.log('VALUE IN REDIS');
       return new Promise<T>((res) => res(JSON.parse(value)));
     }
 
-    console.log('VALUE NOT IN REDIS <HTTP>');
-    return await httpGet<T>(key).then((v: T) => {
-      console.log('RECEIVED RESPONSE FROM HTTP');
-      redisSet(key, JSON.stringify(v));
+    return await httpGet<T>(key).then((resp: T) => {
+      this.set<T>(key, resp);
 
-      return v;
+      return resp;
     });
   }
 
-  async set(key: string) {}
+  set<T>(k: string, v: T) {
+    redisSet(k, JSON.stringify(v));
+  }
 }
 
 export default DataService;

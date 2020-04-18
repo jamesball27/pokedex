@@ -1,26 +1,26 @@
-import { ObjectType, Field } from 'type-graphql';
+import { ObjectType, Field, Int } from 'type-graphql';
 
 @ObjectType()
 class Pokemon {
-  @Field()
+  @Field(() => Int)
   id: number;
 
   @Field()
   name: string;
 
-  @Field()
+  @Field(() => Int)
   base_experience: number;
 
-  @Field()
+  @Field(() => Int)
   height: number;
 
   @Field()
   is_default: boolean;
 
-  @Field()
+  @Field(() => Int)
   order: number;
 
-  @Field()
+  @Field(() => Int)
   weight: number;
 
   // location_area_encounters:

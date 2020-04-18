@@ -29,7 +29,8 @@ class PokemonService {
   }
 
   async get(id: number): Promise<PokemonType> {
-    return await this.dataService.get<PokemonType>(`/pokemon/${id}`);
+    const url = `/pokemon/${id}`;
+    return await this.dataService.get<PokemonType>(url);
   }
 }
 
