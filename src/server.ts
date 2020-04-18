@@ -1,6 +1,4 @@
 import 'reflect-metadata';
-// import express from 'express';
-// import expressGraphQL from 'express-graphql';
 import { ApolloServer } from 'apollo-server';
 import { buildSchema } from 'type-graphql';
 import { Container } from 'typedi';
