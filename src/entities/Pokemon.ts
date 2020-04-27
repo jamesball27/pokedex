@@ -1,5 +1,6 @@
 import { ObjectType, Field, Int } from 'type-graphql';
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import Ability from './Ability';
 
 @ObjectType()
 @Entity('pokemon')
@@ -33,8 +34,11 @@ class Pokemon {
   @Column()
   weight: number;
 
+  @Field((type) => Ability, { nullable: true })
+  @ManyToMany(() => Ability, 'pokemon')
+  @JoinTable()
+  abilities: Ability[];
   // location_area_encounters:
-  // abilities:
   // forms:
   // game_indices
   // held_items
