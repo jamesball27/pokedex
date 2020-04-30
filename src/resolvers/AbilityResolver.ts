@@ -5,7 +5,7 @@ import { Min } from 'class-validator';
 
 import Ability from '../entities/Ability';
 import AbilityName from '../entities/AbilityName';
-import Language from '../entities/Language';
+import PokemonAbility from '../entities/PokemonAbility';
 
 @ArgsType()
 class AbilityArgs {
@@ -19,6 +19,7 @@ class AbilityResolver {
   constructor(
     @InjectRepository(Ability) private readonly abilityRepository: Repository<Ability>,
     @InjectRepository(AbilityName) private readonly abilityNameRepository: Repository<AbilityName>,
+    @InjectRepository(PokemonAbility) private readonly pokemonAbilityRepository: Repository<PokemonAbility>,
   ) {}
 
   @Query(() => [Ability])
@@ -34,6 +35,11 @@ class AbilityResolver {
   @FieldResolver(() => AbilityName)
   async names(@Root() ability: Ability): Promise<AbilityName[]> {
     return this.abilityNameRepository.find({ id: ability.id });
+  }
+
+  @FieldResolver(() => PokemonAbility)
+  async pokemon(@Root() ability: Ability): Promise<PokemonAbility[]> {
+    return this.pokemonAbilityRepository.find({ relations: ['ability'], where: { ability: { id: ability.id } } });
   }
 }
 

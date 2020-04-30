@@ -2,7 +2,7 @@ import { ObjectType, Field, Int } from 'type-graphql';
 import { Entity, Column, PrimaryColumn, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 
 import AbilityName from './AbilityName';
-import Pokemon from './Pokemon';
+import PokemonAbility from './PokemonAbility';
 
 @ObjectType()
 @Entity('ability')
@@ -20,8 +20,8 @@ class Ability {
   @Column()
   isMainSeries: boolean;
 
-  @Field((type) => AbilityName, { nullable: true })
-  @OneToMany((type) => AbilityName, 'ability')
+  @Field(() => AbilityName, { nullable: true })
+  @OneToMany(() => AbilityName, 'ability')
   names: AbilityName[];
 
   // generation;
@@ -29,10 +29,9 @@ class Ability {
   // effect_entries;
   // effect_changes;
   // flavor_text_entries;
-  @Field((type) => Pokemon, { nullable: true })
-  @ManyToMany(() => Ability, 'ability')
-  @JoinTable()
-  pokemon: Pokemon[];
+  @Field((type) => PokemonAbility, { nullable: true })
+  @OneToMany(() => PokemonAbility, 'ability')
+  pokemon: PokemonAbility[];
 }
 
 export default Ability;

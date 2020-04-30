@@ -1,6 +1,6 @@
 import { ObjectType, Field, Int } from 'type-graphql';
-import { Entity, Column, PrimaryColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
-import Ability from './Ability';
+import { Entity, Column, PrimaryColumn, OneToMany, ManyToMany, JoinTable } from 'typeorm';
+import PokemonAbility from './PokemonAbility';
 
 @ObjectType()
 @Entity('pokemon')
@@ -34,10 +34,10 @@ class Pokemon {
   @Column()
   weight: number;
 
-  @Field((type) => Ability, { nullable: true })
-  @ManyToMany(() => Ability, 'pokemon')
-  @JoinTable()
-  abilities: Ability[];
+  @Field((type) => PokemonAbility, { nullable: true })
+  @OneToMany(() => PokemonAbility, 'pokemon')
+  abilities: PokemonAbility[];
+
   // location_area_encounters:
   // forms:
   // game_indices

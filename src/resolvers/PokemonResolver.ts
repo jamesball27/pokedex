@@ -4,7 +4,7 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { Min, Max } from 'class-validator';
 
 import Pokemon from '../entities/Pokemon';
-import Ability from '../entities/Ability';
+import PokemonAbility from '../entities/PokemonAbility';
 
 @ArgsType()
 class PokemonArgs {
@@ -17,7 +17,7 @@ class PokemonArgs {
 class PokemonResolver {
   constructor(
     @InjectRepository(Pokemon) private readonly pokemonRepository: Repository<Pokemon>,
-    @InjectRepository(Ability) private readonly abilityRepository: Repository<Ability>,
+    @InjectRepository(PokemonAbility) private readonly pokemonAbilityRepository: Repository<PokemonAbility>,
   ) {}
 
   @Query(() => [Pokemon])
@@ -30,9 +30,9 @@ class PokemonResolver {
     return this.pokemonRepository.findOneOrFail(id);
   }
 
-  @FieldResolver(() => Ability)
-  async abilities(@Root() ability: Ability): Promise<Ability[]> {
-    return this.abilityRepository.find({ id: ability.id });
+  @FieldResolver(() => PokemonAbility)
+  async abilities(@Root() pokemon: Pokemon): Promise<PokemonAbility[]> {
+    return this.pokemonAbilityRepository.find({ relations: ['pokemon'], where: { pokemon: { id: pokemon.id } } });
   }
 }
 
