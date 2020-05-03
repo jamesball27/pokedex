@@ -29,8 +29,9 @@ class Language {
 
   // language_names
 
-  @OneToMany((type) => AbilityName, 'languages', { nullable: true })
-  abilityName: AbilityName[];
+  @Field(() => AbilityName, { nullable: true })
+  @OneToMany((type) => AbilityName, 'language', { nullable: true })
+  abilityNames: AbilityName[];
 }
 
 export default Language;

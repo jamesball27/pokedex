@@ -5,6 +5,7 @@ import { Min, Max } from 'class-validator';
 
 import Pokemon from '../entities/Pokemon';
 import PokemonAbility from '../entities/PokemonAbility';
+import PokemonType from '../entities/PokemonType';
 
 @ArgsType()
 class PokemonArgs {
@@ -18,6 +19,7 @@ class PokemonResolver {
   constructor(
     @InjectRepository(Pokemon) private readonly pokemonRepository: Repository<Pokemon>,
     @InjectRepository(PokemonAbility) private readonly pokemonAbilityRepository: Repository<PokemonAbility>,
+    @InjectRepository(PokemonType) private readonly pokemonTypeRepository: Repository<PokemonType>,
   ) {}
 
   @Query(() => [Pokemon])
@@ -33,6 +35,11 @@ class PokemonResolver {
   @FieldResolver(() => PokemonAbility)
   async abilities(@Root() pokemon: Pokemon): Promise<PokemonAbility[]> {
     return this.pokemonAbilityRepository.find({ relations: ['pokemon'], where: { pokemon: { id: pokemon.id } } });
+  }
+
+  @FieldResolver(() => PokemonType)
+  async types(@Root() pokemon: Pokemon): Promise<PokemonType[]> {
+    return this.pokemonTypeRepository.find({ relations: ['pokemon'], where: { pokemon: { id: pokemon.id } } });
   }
 }
 

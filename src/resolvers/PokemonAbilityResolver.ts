@@ -14,14 +14,14 @@ class PokemonAbilityResolver {
 
   @FieldResolver(() => Ability)
   async ability(@Root() pokemonAbility: PokemonAbility): Promise<Ability> {
-    return await this.pokemonAbilityRepository
+    return this.pokemonAbilityRepository
       .findOneOrFail(pokemonAbility.id, { relations: ['ability'] })
       .then((pa) => pa.ability);
   }
 
   @FieldResolver(() => Pokemon)
   async pokemon(@Root() pokemonAbility: PokemonAbility): Promise<Pokemon> {
-    return await this.pokemonAbilityRepository
+    return this.pokemonAbilityRepository
       .findOneOrFail(pokemonAbility.id, { relations: ['pokemon'] })
       .then((pa) => pa.pokemon);
   }
