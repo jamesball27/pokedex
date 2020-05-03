@@ -52,7 +52,6 @@ class Pokemon {
   // sprites
   // species
   // stats
-  // types
 }
 
 export default Pokemon;
