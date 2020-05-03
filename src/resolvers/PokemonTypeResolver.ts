@@ -8,7 +8,10 @@ import Type from '../entities/Type';
 
 @Resolver((of) => PokemonType)
 class PokemonTypeResolver {
-  constructor(@InjectRepository(PokemonType) private readonly pokemonTypeRepository: Repository<PokemonType>) {}
+  constructor(
+    @InjectRepository(PokemonType)
+    private readonly pokemonTypeRepository: Repository<PokemonType>,
+  ) {}
 
   @FieldResolver(() => Type)
   async type(@Root() pokemonType: PokemonType): Promise<Type> {

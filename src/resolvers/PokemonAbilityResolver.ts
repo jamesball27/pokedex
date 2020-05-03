@@ -9,7 +9,8 @@ import Ability from '../entities/Ability';
 @Resolver((of) => PokemonAbility)
 class PokemonAbilityResolver {
   constructor(
-    @InjectRepository(PokemonAbility) private readonly pokemonAbilityRepository: Repository<PokemonAbility>,
+    @InjectRepository(PokemonAbility)
+    private readonly pokemonAbilityRepository: Repository<PokemonAbility>,
   ) {}
 
   @FieldResolver(() => Ability)

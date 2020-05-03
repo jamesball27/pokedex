@@ -7,7 +7,10 @@ import Language from '../entities/Language';
 
 @Resolver((of) => AbilityName)
 class AbilityNameResolver {
-  constructor(@InjectRepository(AbilityName) private readonly abilityNameRepository: Repository<AbilityName>) {}
+  constructor(
+    @InjectRepository(AbilityName)
+    private readonly abilityNameRepository: Repository<AbilityName>,
+  ) {}
 
   @FieldResolver(() => Language)
   async language(@Root() abilityName: AbilityName): Promise<Language> {
