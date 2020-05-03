@@ -1,7 +1,8 @@
 import { ObjectType, Field, Int } from 'type-graphql';
 import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne } from 'typeorm';
-import Ability from './Ability';
+
 import AbilityName from './AbilityName';
+import TypeName from './TypeName';
 
 @ObjectType()
 @Entity('language')
@@ -29,8 +30,13 @@ class Language {
 
   // language_names
 
-  @OneToMany((type) => AbilityName, 'languages', { nullable: true })
-  abilityName: AbilityName[];
+  @Field(() => AbilityName, { nullable: true })
+  @OneToMany((type) => AbilityName, 'language', { nullable: true })
+  abilityNames: AbilityName[];
+
+  @Field(() => TypeName, { nullable: true })
+  @OneToMany((type) => TypeName, 'language', { nullable: true })
+  typeNames: TypeName[];
 }
 
 export default Language;

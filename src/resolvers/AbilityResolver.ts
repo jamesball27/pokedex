@@ -17,20 +17,11 @@ class AbilityArgs {
 @Resolver((of) => Ability)
 class AbilityResolver {
   constructor(
-    @InjectRepository(Ability) private readonly abilityRepository: Repository<Ability>,
-    @InjectRepository(AbilityName) private readonly abilityNameRepository: Repository<AbilityName>,
-    @InjectRepository(PokemonAbility) private readonly pokemonAbilityRepository: Repository<PokemonAbility>,
+    @InjectRepository(AbilityName)
+    private readonly abilityNameRepository: Repository<AbilityName>,
+    @InjectRepository(PokemonAbility)
+    private readonly pokemonAbilityRepository: Repository<PokemonAbility>,
   ) {}
-
-  @Query(() => [Ability])
-  async allAbilities(): Promise<Ability[]> {
-    return this.abilityRepository.find();
-  }
-
-  @Query(() => Ability)
-  async ability(@Args() { id }: AbilityArgs): Promise<Ability> {
-    return this.abilityRepository.findOneOrFail(id);
-  }
 
   @FieldResolver(() => AbilityName)
   async names(@Root() ability: Ability): Promise<AbilityName[]> {
@@ -39,7 +30,10 @@ class AbilityResolver {
 
   @FieldResolver(() => PokemonAbility)
   async pokemon(@Root() ability: Ability): Promise<PokemonAbility[]> {
-    return this.pokemonAbilityRepository.find({ relations: ['ability'], where: { ability: { id: ability.id } } });
+    return this.pokemonAbilityRepository.find({
+      relations: ['ability'],
+      where: { ability: { id: ability.id } },
+    });
   }
 }
 

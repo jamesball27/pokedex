@@ -1,11 +1,12 @@
 import { ObjectType, Field, Int } from 'type-graphql';
 import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne, ManyToMany } from 'typeorm';
-import Ability from './Ability';
+
+import Type from './Type';
 import Language from './Language';
 
 @ObjectType()
-@Entity('abilityname')
-class AbilityName {
+@Entity('typename')
+class TypeName {
   @Field(() => Int)
   @Column()
   @PrimaryColumn()
@@ -15,15 +16,15 @@ class AbilityName {
   @Column()
   name: string;
 
-  @Field((type) => Ability, { nullable: true })
-  @ManyToOne((type) => Ability, 'names')
+  @Field((type) => Type, { nullable: true })
+  @ManyToOne((type) => Type, 'names')
   @JoinColumn()
-  ability: Ability;
+  type: Type;
 
   @Field((type) => Language, { nullable: true })
-  @ManyToOne((type) => Language, 'abilityNames')
+  @ManyToOne((type) => Language, 'typeNames')
   @JoinColumn()
   language: Language;
 }
 
-export default AbilityName;
+export default TypeName;
