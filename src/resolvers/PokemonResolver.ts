@@ -24,8 +24,6 @@ class PokemonResolver {
     private readonly pokemonAbilityRepository: Repository<PokemonAbility>,
     @InjectRepository(PokemonType)
     private readonly pokemonTypeRepository: Repository<PokemonType>,
-    @InjectRepository(PokemonSpecies)
-    private readonly pokemonSpeciesRepository: Repository<PokemonSpecies>,
   ) {}
 
   @Query(() => [Pokemon])

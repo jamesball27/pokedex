@@ -55,6 +55,7 @@ class PokemonSpecies {
   @Field((type) => GrowthRate, { nullable: true })
   @ManyToOne(() => GrowthRate, 'pokemonSpecies')
   growthRate: GrowthRate;
+
   // pokedex_numbers
   // egg_groups
   // color

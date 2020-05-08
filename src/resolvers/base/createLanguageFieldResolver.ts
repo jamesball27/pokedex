@@ -4,8 +4,9 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import Language from '../../entities/Language';
 import Description from '../../entities/base/Description';
+import Name from '../../entities/base/Name';
 
-function createDescriptionResovler<T extends Description>(TypeClass: ClassType<T>) {
+function createLanguageFieldResolver<T extends Description | Name>(TypeClass: ClassType<T>) {
   @Resolver(() => TypeClass)
   abstract class BaseResolver {
     @InjectRepository(TypeClass)
@@ -23,4 +24,4 @@ function createDescriptionResovler<T extends Description>(TypeClass: ClassType<T
   return BaseResolver;
 }
 
-export default createDescriptionResovler;
+export default createLanguageFieldResolver;
