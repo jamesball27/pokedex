@@ -25,7 +25,10 @@ class AbilityResolver {
 
   @FieldResolver(() => AbilityName)
   async names(@Root() ability: Ability): Promise<AbilityName[]> {
-    return this.abilityNameRepository.find({ id: ability.id });
+    return this.abilityNameRepository.find({
+      relations: ['ability'],
+      where: { ability: { id: ability.id } },
+    });
   }
 
   @FieldResolver(() => PokemonAbility)
