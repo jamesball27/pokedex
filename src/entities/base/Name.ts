@@ -15,7 +15,7 @@ class Name {
   name: string;
 
   @Field((type) => Language, { nullable: true })
-  @ManyToOne(() => Language, 'description')
+  @ManyToOne(() => Language, 'name')
   language: Language;
 }
 

@@ -14,7 +14,6 @@ function createLanguageFieldResolver<T extends Description | Name>(TypeClass: Cl
 
     @FieldResolver(() => Language)
     async language(@Root() parent: T): Promise<Language> {
-      console.log(this.parentTypeRepository.target);
       return this.parentTypeRepository
         .findOneOrFail(parent.id, { relations: ['language'] })
         .then((p) => p.language);

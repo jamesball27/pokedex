@@ -1,8 +1,17 @@
 import { ObjectType, Field, Int } from 'type-graphql';
-import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  OneToMany,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 
 import Pokemon from './Pokemon';
 import GrowthRate from './GrowthRate';
+import EggGroup from './EggGroup';
 
 @ObjectType()
 @Entity('pokemonspecies')
@@ -56,8 +65,15 @@ class PokemonSpecies {
   @ManyToOne(() => GrowthRate, 'pokemonSpecies')
   growthRate: GrowthRate;
 
+  @Field((type) => EggGroup, { nullable: true })
+  @ManyToMany(() => EggGroup, 'pokemonSpecies')
+  @JoinTable({
+    name: 'pokemonegggroup',
+    joinColumn: { name: 'egg_group_id' },
+    inverseJoinColumn: { name: 'pokemon_species_id' },
+  })
+  eggGroups: EggGroup[];
   // pokedex_numbers
-  // egg_groups
   // color
   // shape
   // evolves_from_species
