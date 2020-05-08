@@ -4,6 +4,7 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import EggGroup from '../entities/EggGroup';
 import EggGroupName from '../entities/EggGroupName';
+import resolveOneToMany from './base/resolveOneToMany';
 
 @Resolver((of) => EggGroup)
 class EggGroupResolver {
@@ -14,9 +15,10 @@ class EggGroupResolver {
 
   @FieldResolver(() => EggGroupName)
   async names(@Root() eggGroup: EggGroup): Promise<EggGroupName[]> {
-    return this.nameRepository.find({
-      relations: ['eggGroup'],
-      where: { eggGroup: { id: eggGroup.id } },
+    return resolveOneToMany<EggGroupName>({
+      repository: this.nameRepository,
+      relation: 'eggGroup',
+      parentId: eggGroup.id,
     });
   }
 }
