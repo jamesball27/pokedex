@@ -7,11 +7,13 @@ import {
   ManyToOne,
   ManyToMany,
   JoinTable,
+  JoinColumn,
 } from 'typeorm';
 
 import Pokemon from './Pokemon';
 import GrowthRate from './GrowthRate';
 import EggGroup from './EggGroup';
+import PokemonColor from './PokemonColor';
 
 @ObjectType()
 @Entity('pokemonspecies')
@@ -73,8 +75,12 @@ class PokemonSpecies {
     inverseJoinColumn: { name: 'pokemon_species_id' },
   })
   eggGroups: EggGroup[];
+
+  @Field((type) => PokemonColor, { nullable: true })
+  @ManyToOne(() => PokemonColor, 'pokemonSpecies')
+  @JoinColumn({ name: 'pokemon_color_id' })
+  color: PokemonColor;
   // pokedex_numbers
-  // color
   // shape
   // evolves_from_species
   // evolution_chain

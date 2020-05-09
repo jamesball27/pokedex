@@ -4,9 +4,9 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import PokemonSpecies from '../entities/PokemonSpecies';
 import GrowthRate from '../entities/GrowthRate';
+import PokemonColor from '../entities/PokemonColor';
 import EggGroup from '../entities/EggGroup';
 import resolveManyToOne from './base/resolveManyToOne';
-import resolveOneToMany from './base/resolveOneToMany';
 
 @Resolver((of) => PokemonSpecies)
 class PokemonSpeciesResolver {
@@ -22,6 +22,15 @@ class PokemonSpeciesResolver {
     return resolveManyToOne<PokemonSpecies, GrowthRate>({
       repository: this.pokemonSpeciesRepository,
       relation: 'growthRate',
+      parentId: pokemonSpecies.id,
+    });
+  }
+
+  @FieldResolver(() => PokemonColor)
+  async color(@Root() pokemonSpecies: PokemonSpecies): Promise<PokemonColor> {
+    return resolveManyToOne<PokemonSpecies, PokemonColor>({
+      repository: this.pokemonSpeciesRepository,
+      relation: 'color',
       parentId: pokemonSpecies.id,
     });
   }
