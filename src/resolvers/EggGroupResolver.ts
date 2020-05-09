@@ -15,7 +15,7 @@ class EggGroupResolver {
 
   @FieldResolver(() => EggGroupName)
   async names(@Root() eggGroup: EggGroup): Promise<EggGroupName[]> {
-    return resolveOneToMany<EggGroupName>({
+    return resolveOneToMany<EggGroup, EggGroupName>({
       repository: this.nameRepository,
       relation: 'eggGroup',
       parentId: eggGroup.id,

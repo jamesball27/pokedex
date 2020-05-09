@@ -5,6 +5,7 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import Pokemon from '../entities/Pokemon';
 import PokemonType from '../entities/PokemonType';
 import Type from '../entities/Type';
+import resolveManyToOne from './base/resolveManyToOne';
 
 @Resolver((of) => PokemonType)
 class PokemonTypeResolver {
@@ -15,16 +16,20 @@ class PokemonTypeResolver {
 
   @FieldResolver(() => Type)
   async type(@Root() pokemonType: PokemonType): Promise<Type> {
-    return await this.pokemonTypeRepository
-      .findOneOrFail(pokemonType.id, { relations: ['type'] })
-      .then((pa) => pa.type);
+    return resolveManyToOne<PokemonType, Type>({
+      repository: this.pokemonTypeRepository,
+      relation: 'type',
+      parentId: pokemonType.id,
+    });
   }
 
   @FieldResolver(() => Pokemon)
   async pokemon(@Root() pokemonType: PokemonType): Promise<Pokemon> {
-    return await this.pokemonTypeRepository
-      .findOneOrFail(pokemonType.id, { relations: ['pokemon'] })
-      .then((pa) => pa.pokemon);
+    return resolveManyToOne<PokemonType, Pokemon>({
+      repository: this.pokemonTypeRepository,
+      relation: 'pokemon',
+      parentId: pokemonType.id,
+    });
   }
 }
 

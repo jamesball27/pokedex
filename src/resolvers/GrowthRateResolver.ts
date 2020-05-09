@@ -1,9 +1,10 @@
-import { Resolver, Query, Field, Int, ArgsType, Args, FieldResolver, Root } from 'type-graphql';
+import { Resolver, FieldResolver, Root } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import GrowthRate from '../entities/GrowthRate';
 import GrowthRateDescription from '../entities/GrowthRateDescription';
+import resolveOneToMany from './base/resolveOneToMany';
 
 @Resolver((of) => GrowthRate)
 class GrowthRateResolver {
@@ -14,9 +15,10 @@ class GrowthRateResolver {
 
   @FieldResolver(() => GrowthRateDescription)
   async descriptions(@Root() growthRate: GrowthRate): Promise<GrowthRateDescription[]> {
-    return this.descriptionRepository.find({
-      relations: ['growthRate'],
-      where: { growthRate: { id: growthRate.id } },
+    return resolveOneToMany<GrowthRate, GrowthRateDescription>({
+      repository: this.descriptionRepository,
+      relation: 'growthRate',
+      parentId: growthRate.id,
     });
   }
 }

@@ -1,13 +1,20 @@
 import { Repository } from 'typeorm';
 
-interface ResolverOpts<T> {
-  repository: Repository<T>;
-  relation: string;
+// Extract all keys of T that have type V
+type KeysMatching<T, V> = { [K in keyof T]: T[K] extends V ? K : never }[keyof T];
+
+interface ResolverOpts<T, R> {
+  repository: Repository<R>;
+  relation: KeysMatching<R, T>;
   parentId: number;
 }
 
-async function resolveOneToMany<T>(opts: ResolverOpts<T>): Promise<T[]> {
-  const { repository, relation, parentId } = opts;
+async function resolveOneToMany<T extends { [k: string]: any }, R>(
+  opts: ResolverOpts<T, R>,
+): Promise<R[]> {
+  const { repository, parentId } = opts;
+  const relation = opts.relation as string;
+
   return repository.find({
     relations: [relation],
     where: { [relation]: { id: parentId } },

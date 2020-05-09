@@ -5,6 +5,8 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import PokemonSpecies from '../entities/PokemonSpecies';
 import GrowthRate from '../entities/GrowthRate';
 import EggGroup from '../entities/EggGroup';
+import resolveManyToOne from './base/resolveManyToOne';
+import resolveOneToMany from './base/resolveOneToMany';
 
 @Resolver((of) => PokemonSpecies)
 class PokemonSpeciesResolver {
@@ -17,13 +19,16 @@ class PokemonSpeciesResolver {
 
   @FieldResolver(() => GrowthRate)
   async growthRate(@Root() pokemonSpecies: PokemonSpecies): Promise<GrowthRate> {
-    return this.pokemonSpeciesRepository
-      .findOneOrFail(pokemonSpecies.id, { relations: ['growthRate'] })
-      .then((ps) => ps.growthRate);
+    return resolveManyToOne<PokemonSpecies, GrowthRate>({
+      repository: this.pokemonSpeciesRepository,
+      relation: 'growthRate',
+      parentId: pokemonSpecies.id,
+    });
   }
 
   @FieldResolver(() => EggGroup)
   async eggGroups(@Root() pokemonSpecies: PokemonSpecies): Promise<EggGroup[]> {
+    // TODO: extract ManyToMany into helper function
     return this.eggGroupRepository.find({
       relations: ['pokemonSpecies'],
       where: { pokemonSpecies: { id: pokemonSpecies.id } },
