@@ -14,6 +14,8 @@ import Pokemon from './Pokemon';
 import GrowthRate from './GrowthRate';
 import EggGroup from './EggGroup';
 import PokemonColor from './PokemonColor';
+import PokemonShape from './PokemonShape';
+import PokemonHabitat from './PokemonHabitat';
 
 @ObjectType()
 @Entity('pokemonspecies')
@@ -80,11 +82,20 @@ class PokemonSpecies {
   @ManyToOne(() => PokemonColor, 'pokemonSpecies')
   @JoinColumn({ name: 'pokemon_color_id' })
   color: PokemonColor;
+
+  @Field((type) => PokemonShape, { nullable: true })
+  @ManyToOne(() => PokemonShape, 'pokemonSpecies')
+  @JoinColumn({ name: 'pokemon_shape_id' })
+  shape: PokemonShape;
+
+  @Field((type) => PokemonHabitat, { nullable: true })
+  @ManyToOne(() => PokemonHabitat, 'pokemonSpecies')
+  @JoinColumn({ name: 'pokemon_habitat_id' })
+  habitat: PokemonHabitat;
+
   // pokedex_numbers
-  // shape
   // evolves_from_species
   // evolution_chain
-  // habitat
   // generation
   // names
   // pal_park_encounters
