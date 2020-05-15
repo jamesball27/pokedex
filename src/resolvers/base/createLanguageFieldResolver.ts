@@ -5,12 +5,15 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import Language from '../../entities/Language';
 import Description from '../../entities/base/Description';
 import Name from '../../entities/base/Name';
+import FlavorText from '../../entities/base/FlavorText';
 
-function createLanguageFieldResolver<T extends Description | Name>(TypeClass: ClassType<T>) {
+function createLanguageFieldResolver<T extends Description | Name | FlavorText>(
+  TypeClass: ClassType<T>,
+) {
   @Resolver(() => TypeClass)
   abstract class BaseResolver {
     @InjectRepository(TypeClass)
-    private readonly parentTypeRepository: Repository<T>;
+    protected readonly parentTypeRepository: Repository<T>;
 
     @FieldResolver(() => Language)
     async language(@Root() parent: T): Promise<Language> {

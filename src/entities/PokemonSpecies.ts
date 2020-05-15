@@ -16,6 +16,8 @@ import EggGroup from './EggGroup';
 import PokemonColor from './PokemonColor';
 import PokemonShape from './PokemonShape';
 import PokemonHabitat from './PokemonHabitat';
+import PokemonSpeciesName from './PokemonSpeciesName';
+import PokemonSpeciesFlavorText from './PokemonSpeciesFlavorText';
 
 @ObjectType()
 @Entity('pokemonspecies')
@@ -93,13 +95,19 @@ class PokemonSpecies {
   @JoinColumn({ name: 'pokemon_habitat_id' })
   habitat: PokemonHabitat;
 
+  @Field((type) => PokemonSpeciesName, { nullable: true })
+  @OneToMany(() => PokemonSpeciesName, 'species')
+  names: PokemonSpeciesName[];
+
+  @Field((type) => PokemonSpeciesFlavorText, { nullable: true })
+  @OneToMany(() => PokemonSpeciesFlavorText, 'pokemonSpecies')
+  flavorTextEntries: PokemonSpeciesFlavorText[];
+
   // pokedex_numbers
   // evolves_from_species
   // evolution_chain
   // generation
-  // names
   // pal_park_encounters
-  // flavor_text_entries
   // form_descriptions
   // genera
   // varieties

@@ -8,7 +8,10 @@ import PokemonColor from '../entities/PokemonColor';
 import PokemonShape from '../entities/PokemonShape';
 import PokemonHabitat from '../entities/PokemonHabitat';
 import EggGroup from '../entities/EggGroup';
+import PokemonSpeciesName from '../entities/PokemonSpeciesName';
+import PokemonSpeciesFlavorText from '../entities/PokemonSpeciesFlavorText';
 import resolveManyToOne from './base/resolveManyToOne';
+import resolveOneToMany from './base/resolveOneToMany';
 
 @Resolver((of) => PokemonSpecies)
 class PokemonSpeciesResolver {
@@ -17,6 +20,10 @@ class PokemonSpeciesResolver {
     private readonly pokemonSpeciesRepository: Repository<PokemonSpecies>,
     @InjectRepository(EggGroup)
     private readonly eggGroupRepository: Repository<EggGroup>,
+    @InjectRepository(PokemonSpeciesName)
+    private readonly nameRepository: Repository<PokemonSpeciesName>,
+    @InjectRepository(PokemonSpeciesFlavorText)
+    private readonly flavorTextRepository: Repository<PokemonSpeciesFlavorText>,
   ) {}
 
   @FieldResolver(() => GrowthRate)
@@ -61,6 +68,24 @@ class PokemonSpeciesResolver {
     return this.eggGroupRepository.find({
       relations: ['pokemonSpecies'],
       where: { pokemonSpecies: { id: pokemonSpecies.id } },
+    });
+  }
+
+  @FieldResolver(() => PokemonSpeciesName)
+  async names(@Root() species: PokemonSpecies): Promise<PokemonSpeciesName[]> {
+    return resolveOneToMany<PokemonSpecies, PokemonSpeciesName>({
+      repository: this.nameRepository,
+      relation: 'species',
+      parentId: species.id,
+    });
+  }
+
+  @FieldResolver(() => PokemonSpeciesFlavorText)
+  async flavorTextEntries(@Root() species: PokemonSpecies): Promise<PokemonSpeciesFlavorText[]> {
+    return resolveOneToMany<PokemonSpecies, PokemonSpeciesFlavorText>({
+      repository: this.flavorTextRepository,
+      relation: 'pokemonSpecies',
+      parentId: species.id,
     });
   }
 }
