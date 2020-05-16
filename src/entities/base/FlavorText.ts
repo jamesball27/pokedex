@@ -16,11 +16,11 @@ class FlavorText {
   flavorText: string;
 
   @Field((type) => Language, { nullable: true })
-  @ManyToOne(() => Language, 'flavorText')
+  @ManyToOne(() => Language, 'flavorText', { eager: true })
   language: Language;
 
   @Field((type) => Version, { nullable: true })
-  @ManyToOne(() => Version, 'flavorText')
+  @ManyToOne(() => Version, 'flavorText', { eager: true })
   version: Version;
 }
 

@@ -1,5 +1,13 @@
 import { ObjectType, Field, Int } from 'type-graphql';
-import { Entity, Column, PrimaryColumn, OneToMany, ManyToMany, JoinTable } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
+  Transaction,
+} from 'typeorm';
 
 import TypeName from './TypeName';
 import PokemonType from './PokemonType';
@@ -23,7 +31,7 @@ class Type {
   // moves;
 
   @Field(() => TypeName, { nullable: true })
-  @OneToMany(() => TypeName, 'type')
+  @OneToMany(() => TypeName, 'type', { eager: true })
   names: TypeName[];
 
   @Field(() => PokemonType, { nullable: true })

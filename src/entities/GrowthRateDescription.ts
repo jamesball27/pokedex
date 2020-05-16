@@ -7,7 +7,6 @@ import Description from './base/Description';
 @ObjectType()
 @Entity('growthratedescription')
 class GrowthRateDescription extends Description {
-  @Field((type) => GrowthRate, { nullable: true })
   @ManyToOne(() => GrowthRate, 'growthRate')
   growthRate: GrowthRate;
 }

@@ -5,7 +5,6 @@ import { Min, Max } from 'class-validator';
 
 import Pokedex from '../entities/Pokedex';
 import PokemonEntry from '../entities/PokemonEntry';
-import Pokemon from '../entities/Pokemon';
 
 @ArgsType()
 class EntryArgs {
@@ -17,13 +16,6 @@ class EntryArgs {
   @Min(0)
   @Max(100)
   take: number;
-
-  get startIndex(): number {
-    return this.skip;
-  }
-  get endIndex(): number {
-    return this.skip + this.take;
-  }
 }
 
 @Resolver((of) => Pokedex)
@@ -31,10 +23,12 @@ class PokedexResolver {
   constructor(
     @InjectRepository(Pokedex)
     private readonly pokedexRepository: Repository<Pokedex>,
+    @InjectRepository(PokemonEntry)
+    private readonly pokemonEntryRepository: Repository<PokemonEntry>,
   ) {}
 
   @Query(() => Pokedex)
-  async nationalPokedex(): Promise<Pokedex> {
+  async pokedex(): Promise<Pokedex> {
     // the 'national' pokedex contains entries for all pokemon
     const nationalDexId = 1;
     return this.pokedexRepository.findOneOrFail(nationalDexId);
@@ -43,9 +37,15 @@ class PokedexResolver {
   @FieldResolver(() => PokemonEntry)
   async pokemonEntries(
     @Root() pokedex: Pokedex,
-    @Args() { startIndex, endIndex }: EntryArgs,
+    @Args() { skip, take }: EntryArgs,
   ): Promise<PokemonEntry[]> {
-    return pokedex.pokemonEntries.sort((e) => e.entryNumber).slice(startIndex, endIndex);
+    return this.pokemonEntryRepository.find({
+      relations: ['pokedex'],
+      where: { pokedex: { id: pokedex.id } },
+      order: { entryNumber: 'ASC' },
+      skip,
+      take,
+    });
   }
 }
 

@@ -22,15 +22,15 @@ class Pokedex {
   isMainSeries: boolean;
 
   @Field(() => PokedexDescription, { nullable: true })
-  @OneToMany(() => PokedexDescription, 'pokedex', { eager: true })
+  @OneToMany(() => PokedexDescription, 'pokedex')
   descriptions: PokedexDescription[];
 
   @Field(() => PokedexName, { nullable: true })
-  @OneToMany(() => PokedexName, 'pokedex', { eager: true })
+  @OneToMany(() => PokedexName, 'pokedex')
   names: PokedexName[];
 
   @Field(() => PokemonEntry)
-  @OneToMany(() => PokemonEntry, 'pokedex', { eager: true })
+  @OneToMany(() => PokemonEntry, 'pokedex')
   pokemonEntries: PokemonEntry[];
 }
 

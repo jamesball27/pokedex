@@ -12,7 +12,6 @@ class PokemonColorResolver {
     @InjectRepository(PokemonColorName)
     private readonly nameRepository: Repository<PokemonColorName>,
   ) {}
-
   @FieldResolver(() => PokemonColorName)
   async names(@Root() color: PokemonColor): Promise<PokemonColorName[]> {
     return resolveOneToMany<PokemonColor, PokemonColorName>({

@@ -7,7 +7,6 @@ import PokemonColor from './PokemonColor';
 @ObjectType()
 @Entity('pokemoncolorname')
 class PokemonColorName extends Name {
-  @Field((type) => PokemonColor, { nullable: true })
   @ManyToOne(() => PokemonColor, 'names')
   @JoinColumn({ name: 'pokemon_color_id' })
   color: PokemonColor;

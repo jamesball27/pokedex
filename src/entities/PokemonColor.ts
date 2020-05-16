@@ -17,10 +17,9 @@ class PokemonColor {
   name: string;
 
   @Field((type) => PokemonColorName, { nullable: true })
-  @OneToMany(() => PokemonColorName, 'color')
+  @OneToMany(() => PokemonColorName, 'color', { eager: true })
   names: PokemonColorName[];
 
-  @Field((type) => PokemonSpecies, { nullable: true })
   @OneToMany(() => PokemonSpecies, 'color')
   pokemonSpecies: PokemonSpecies[];
 }

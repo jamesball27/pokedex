@@ -17,10 +17,9 @@ class PokemonHabitat {
   name: string;
 
   @Field((type) => PokemonHabitatName, { nullable: true })
-  @OneToMany(() => PokemonHabitatName, 'habitat')
+  @OneToMany(() => PokemonHabitatName, 'habitat', { eager: true })
   names: PokemonHabitatName[];
 
-  @Field((type) => PokemonSpecies, { nullable: true })
   @OneToMany(() => PokemonSpecies, 'shape')
   pokemonSpecies: PokemonSpecies[];
 }

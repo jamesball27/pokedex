@@ -7,7 +7,6 @@ import Ability from './Ability';
 @ObjectType()
 @Entity('abilityname')
 class AbilityName extends Name {
-  @Field((type) => Ability, { nullable: true })
   @ManyToOne((type) => Ability, 'names')
   @JoinColumn()
   ability: Ability;

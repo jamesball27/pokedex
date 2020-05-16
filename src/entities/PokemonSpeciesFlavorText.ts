@@ -7,7 +7,6 @@ import FlavorText from './base/FlavorText';
 @ObjectType()
 @Entity('pokemonspeciesflavortext')
 class PokemonSpeciesFlavorText extends FlavorText {
-  @Field((type) => PokemonSpecies, { nullable: true })
   @ManyToOne(() => PokemonSpecies, 'flavorTextEntries')
   pokemonSpecies: PokemonSpecies;
 }

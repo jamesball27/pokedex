@@ -8,7 +8,6 @@ import Pokedex from './Pokedex';
 @Entity('pokedexname')
 class PokedexName extends Name {
   @ManyToOne(() => Pokedex, 'names')
-  // @JoinColumn({ name: 'pokemon_color_id' })
   pokedex: Pokedex;
 }
 
