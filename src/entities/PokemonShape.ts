@@ -19,10 +19,9 @@ class PokemonShape {
   // awesome_names
 
   @Field((type) => PokemonShapeName, { nullable: true })
-  @OneToMany(() => PokemonShapeName, 'shape')
+  @OneToMany(() => PokemonShapeName, 'shape', { eager: true })
   names: PokemonShapeName[];
 
-  @Field((type) => PokemonSpecies, { nullable: true })
   @OneToMany(() => PokemonSpecies, 'shape')
   pokemonSpecies: PokemonSpecies[];
 }

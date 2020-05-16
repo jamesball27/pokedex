@@ -21,7 +21,7 @@ class Ability {
   isMainSeries: boolean;
 
   @Field(() => AbilityName, { nullable: true })
-  @OneToMany(() => AbilityName, 'ability')
+  @OneToMany(() => AbilityName, 'ability', { eager: true })
   names: AbilityName[];
 
   // generation;

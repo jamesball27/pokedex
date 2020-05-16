@@ -7,7 +7,6 @@ import Type from './Type';
 @ObjectType()
 @Entity('typename')
 class TypeName extends Name {
-  @Field((type) => Type, { nullable: true })
   @ManyToOne((type) => Type, 'names')
   @JoinColumn()
   type: Type;

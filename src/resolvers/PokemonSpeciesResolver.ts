@@ -71,15 +71,6 @@ class PokemonSpeciesResolver {
     });
   }
 
-  @FieldResolver(() => PokemonSpeciesName)
-  async names(@Root() species: PokemonSpecies): Promise<PokemonSpeciesName[]> {
-    return resolveOneToMany<PokemonSpecies, PokemonSpeciesName>({
-      repository: this.nameRepository,
-      relation: 'species',
-      parentId: species.id,
-    });
-  }
-
   @FieldResolver(() => PokemonSpeciesFlavorText)
   async flavorTextEntries(@Root() species: PokemonSpecies): Promise<PokemonSpeciesFlavorText[]> {
     return resolveOneToMany<PokemonSpecies, PokemonSpeciesFlavorText>({

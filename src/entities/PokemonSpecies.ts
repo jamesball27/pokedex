@@ -81,12 +81,12 @@ class PokemonSpecies {
   eggGroups: EggGroup[];
 
   @Field((type) => PokemonColor, { nullable: true })
-  @ManyToOne(() => PokemonColor, 'pokemonSpecies')
+  @ManyToOne(() => PokemonColor, 'pokemonSpecies', { eager: true })
   @JoinColumn({ name: 'pokemon_color_id' })
   color: PokemonColor;
 
   @Field((type) => PokemonShape, { nullable: true })
-  @ManyToOne(() => PokemonShape, 'pokemonSpecies')
+  @ManyToOne(() => PokemonShape, 'pokemonSpecies', { eager: true })
   @JoinColumn({ name: 'pokemon_shape_id' })
   shape: PokemonShape;
 
@@ -96,7 +96,7 @@ class PokemonSpecies {
   habitat: PokemonHabitat;
 
   @Field((type) => PokemonSpeciesName, { nullable: true })
-  @OneToMany(() => PokemonSpeciesName, 'species')
+  @OneToMany(() => PokemonSpeciesName, 'species', { eager: true })
   names: PokemonSpeciesName[];
 
   @Field((type) => PokemonSpeciesFlavorText, { nullable: true })

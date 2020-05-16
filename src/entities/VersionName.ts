@@ -7,7 +7,6 @@ import Version from './Version';
 @ObjectType()
 @Entity('versionname')
 class VersionName extends Name {
-  @Field((type) => Version, { nullable: true })
   @ManyToOne(() => Version, 'names')
   version: Version;
 }

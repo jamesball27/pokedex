@@ -21,11 +21,10 @@ class GrowthRate {
   formula: string;
 
   @Field((type) => GrowthRateDescription, { nullable: true })
-  @OneToMany(() => GrowthRateDescription, 'growthRate')
+  @OneToMany(() => GrowthRateDescription, 'growthRate', { eager: true })
   descriptions: GrowthRateDescription[];
   // levels
 
-  @Field((type) => PokemonSpecies, { nullable: true })
   @OneToMany(() => PokemonSpecies, 'growthRate')
   pokemonSpecies: PokemonSpecies[];
 }

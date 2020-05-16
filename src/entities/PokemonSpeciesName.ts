@@ -7,7 +7,6 @@ import PokemonSpecies from './PokemonSpecies';
 @ObjectType()
 @Entity('pokemonspeciesname')
 class PokemonSpeciesName extends Name {
-  @Field((type) => PokemonSpecies, { nullable: true })
   @ManyToOne(() => PokemonSpecies, 'names')
   @JoinColumn({ name: 'pokemon_species_id' })
   species: PokemonSpecies;

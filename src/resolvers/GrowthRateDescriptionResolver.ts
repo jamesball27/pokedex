@@ -1,10 +1,8 @@
-import createLanguageFieldResolver from './base/createLanguageFieldResolver';
-import GrowthRateDescription from '../entities/GrowthRateDescription';
 import { Resolver } from 'type-graphql';
 
-const BaseResolver = createLanguageFieldResolver<GrowthRateDescription>(GrowthRateDescription);
+import GrowthRateDescription from '../entities/GrowthRateDescription';
 
 @Resolver((of) => GrowthRateDescription)
-class GrowthRateDescriptionResolver extends BaseResolver {}
+class GrowthRateDescriptionResolver {}
 
 export default GrowthRateDescriptionResolver;

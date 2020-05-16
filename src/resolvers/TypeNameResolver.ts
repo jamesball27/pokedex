@@ -1,10 +1,8 @@
-import createLanguageFieldResolver from './base/createLanguageFieldResolver';
-import TypeName from '../entities/TypeName';
 import { Resolver } from 'type-graphql';
 
-const BaseResolver = createLanguageFieldResolver<TypeName>(TypeName);
+import TypeName from '../entities/TypeName';
 
 @Resolver((of) => TypeName)
-class TypeNameResolver extends BaseResolver {}
+class TypeNameResolver {}
 
 export default TypeNameResolver;

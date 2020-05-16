@@ -30,15 +30,6 @@ class Language {
   iso3166: string;
 
   // language_names
-
-  @OneToMany('AbilityName', 'language', { nullable: true })
-  abilityNames: AbilityName[];
-
-  @OneToMany('TypeName', 'language', { nullable: true })
-  typeNames: TypeName[];
-
-  @OneToMany('EggGroupName', 'language', { nullable: true })
-  eggGroupNames: EggGroupName[];
 }
 
 export default Language;
