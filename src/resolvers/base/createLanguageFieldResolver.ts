@@ -17,9 +17,10 @@ function createLanguageFieldResolver<T extends Description | Name | FlavorText>(
 
     @FieldResolver(() => Language)
     async language(@Root() parent: T): Promise<Language> {
-      return this.parentTypeRepository
-        .findOneOrFail(parent.id, { relations: ['language'] })
-        .then((p) => p.language);
+      return parent.language;
+      // return this.parentTypeRepository
+      //   .findOneOrFail(parent.id, { relations: ['language'] })
+      //   .then((p) => p.language);
     }
   }
 
