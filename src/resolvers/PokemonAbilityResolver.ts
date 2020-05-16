@@ -5,6 +5,7 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import Pokemon from '../entities/Pokemon';
 import PokemonAbility from '../entities/PokemonAbility';
 import Ability from '../entities/Ability';
+import resolveManyToOne from './base/resolveManyToOne';
 
 @Resolver((of) => PokemonAbility)
 class PokemonAbilityResolver {
@@ -15,16 +16,20 @@ class PokemonAbilityResolver {
 
   @FieldResolver(() => Ability)
   async ability(@Root() pokemonAbility: PokemonAbility): Promise<Ability> {
-    return this.pokemonAbilityRepository
-      .findOneOrFail(pokemonAbility.id, { relations: ['ability'] })
-      .then((pa) => pa.ability);
+    return resolveManyToOne<PokemonAbility, Ability>({
+      repository: this.pokemonAbilityRepository,
+      relation: 'ability',
+      parentId: pokemonAbility.id,
+    });
   }
 
   @FieldResolver(() => Pokemon)
   async pokemon(@Root() pokemonAbility: PokemonAbility): Promise<Pokemon> {
-    return this.pokemonAbilityRepository
-      .findOneOrFail(pokemonAbility.id, { relations: ['pokemon'] })
-      .then((pa) => pa.pokemon);
+    return resolveManyToOne<PokemonAbility, Pokemon>({
+      repository: this.pokemonAbilityRepository,
+      relation: 'pokemon',
+      parentId: pokemonAbility.id,
+    });
   }
 }
 

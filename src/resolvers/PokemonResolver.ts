@@ -6,6 +6,9 @@ import { Min, Max } from 'class-validator';
 import Pokemon from '../entities/Pokemon';
 import PokemonAbility from '../entities/PokemonAbility';
 import PokemonType from '../entities/PokemonType';
+import PokemonSpecies from '../entities/PokemonSpecies';
+import resolveOneToMany from './base/resolveOneToMany';
+import resolveManyToOne from './base/resolveManyToOne';
 
 @ArgsType()
 class PokemonArgs {
@@ -37,17 +40,28 @@ class PokemonResolver {
 
   @FieldResolver(() => PokemonAbility)
   async abilities(@Root() pokemon: Pokemon): Promise<PokemonAbility[]> {
-    return this.pokemonAbilityRepository.find({
-      relations: ['pokemon'],
-      where: { pokemon: { id: pokemon.id } },
+    return resolveOneToMany<Pokemon, PokemonAbility>({
+      repository: this.pokemonAbilityRepository,
+      relation: 'pokemon',
+      parentId: pokemon.id,
     });
   }
 
   @FieldResolver(() => PokemonType)
   async types(@Root() pokemon: Pokemon): Promise<PokemonType[]> {
-    return this.pokemonTypeRepository.find({
-      relations: ['pokemon'],
-      where: { pokemon: { id: pokemon.id } },
+    return resolveOneToMany<Pokemon, PokemonType>({
+      repository: this.pokemonTypeRepository,
+      relation: 'pokemon',
+      parentId: pokemon.id,
+    });
+  }
+
+  @FieldResolver(() => PokemonSpecies)
+  async species(@Root() pokemon: Pokemon): Promise<PokemonSpecies> {
+    return resolveManyToOne<Pokemon, PokemonSpecies>({
+      repository: this.pokemonRepository,
+      relation: 'species',
+      parentId: pokemon.id,
     });
   }
 }

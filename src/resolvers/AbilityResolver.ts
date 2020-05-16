@@ -1,18 +1,11 @@
-import { Resolver, Query, Field, Int, ArgsType, Args, FieldResolver, Root } from 'type-graphql';
+import { Resolver, FieldResolver, Root } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { Min } from 'class-validator';
 
+import resolveOneToMany from './base/resolveOneToMany';
 import Ability from '../entities/Ability';
 import AbilityName from '../entities/AbilityName';
 import PokemonAbility from '../entities/PokemonAbility';
-
-@ArgsType()
-class AbilityArgs {
-  @Field(() => Int, { nullable: false })
-  @Min(1)
-  id: number;
-}
 
 @Resolver((of) => Ability)
 class AbilityResolver {
@@ -25,14 +18,19 @@ class AbilityResolver {
 
   @FieldResolver(() => AbilityName)
   async names(@Root() ability: Ability): Promise<AbilityName[]> {
-    return this.abilityNameRepository.find({ id: ability.id });
+    return resolveOneToMany<Ability, AbilityName>({
+      repository: this.abilityNameRepository,
+      relation: 'ability',
+      parentId: ability.id,
+    });
   }
 
   @FieldResolver(() => PokemonAbility)
   async pokemon(@Root() ability: Ability): Promise<PokemonAbility[]> {
-    return this.pokemonAbilityRepository.find({
-      relations: ['ability'],
-      where: { ability: { id: ability.id } },
+    return resolveOneToMany<Ability, PokemonAbility>({
+      repository: this.pokemonAbilityRepository,
+      relation: 'ability',
+      parentId: ability.id,
     });
   }
 }

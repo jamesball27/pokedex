@@ -1,23 +1,10 @@
-import { Resolver, FieldResolver, Root } from 'type-graphql';
-import { Repository } from 'typeorm';
-import { InjectRepository } from 'typeorm-typedi-extensions';
-
+import createLanguageFieldResolver from './base/createLanguageFieldResolver';
 import TypeName from '../entities/TypeName';
-import Language from '../entities/Language';
+import { Resolver } from 'type-graphql';
+
+const BaseResolver = createLanguageFieldResolver<TypeName>(TypeName);
 
 @Resolver((of) => TypeName)
-class TypeNameResolver {
-  constructor(
-    @InjectRepository(TypeName)
-    private readonly typeNameRepository: Repository<TypeName>,
-  ) {}
-
-  @FieldResolver(() => Language)
-  async language(@Root() typeName: TypeName): Promise<Language> {
-    return this.typeNameRepository
-      .findOneOrFail(typeName.id, { relations: ['language'] })
-      .then((an) => an.language);
-  }
-}
+class TypeNameResolver extends BaseResolver {}
 
 export default TypeNameResolver;

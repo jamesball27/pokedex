@@ -3,6 +3,7 @@ import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne } from 'typeorm';
 
 import AbilityName from './AbilityName';
 import TypeName from './TypeName';
+import EggGroupName from './EggGroupName';
 
 @ObjectType()
 @Entity('language')
@@ -30,13 +31,14 @@ class Language {
 
   // language_names
 
-  @Field(() => AbilityName, { nullable: true })
-  @OneToMany((type) => AbilityName, 'language', { nullable: true })
+  @OneToMany('AbilityName', 'language', { nullable: true })
   abilityNames: AbilityName[];
 
-  @Field(() => TypeName, { nullable: true })
-  @OneToMany((type) => TypeName, 'language', { nullable: true })
+  @OneToMany('TypeName', 'language', { nullable: true })
   typeNames: TypeName[];
+
+  @OneToMany('EggGroupName', 'language', { nullable: true })
+  eggGroupNames: EggGroupName[];
 }
 
 export default Language;
