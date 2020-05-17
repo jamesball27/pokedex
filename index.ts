@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 
-import { setupDB } from './db';
-import { setupServer } from './server';
+import { setupDB } from './src/db';
+import { setupServer } from './src/server';
 
 async function run(): Promise<void> {
   await setupDB();

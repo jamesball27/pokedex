@@ -1,0 +1,46 @@
+version: 2.1
+
+executors:
+  node:
+    description: Node 12
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/app
+commands:
+  load:
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/app
+  install:
+    parameters:
+      module_path:
+        type: string
+        default: './node_modules'
+    steps:
+      - run: npm install
+      - persist_to_workspace:
+          root: ~/app
+          paths:
+            - << parameters.module_path >>
+  lint:
+    steps:
+      - run: npm run lint
+jobs:
+  install:
+    executor: node
+    steps:
+      - load
+      - install
+  lint:
+    executor: node
+    steps:
+      - load
+      - lint
+workflows:
+  all:
+    jobs:
+      - install
+      - lint:
+          requires:
+            - install
