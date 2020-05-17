@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from 'type-graphql';
+import { ObjectType } from 'type-graphql';
 import { Entity, ManyToOne } from 'typeorm';
 
 import PokemonSpecies from './PokemonSpecies';

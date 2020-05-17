@@ -9,6 +9,7 @@ interface ResolverOpts<T, R> {
   parentId: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function resolveManyToOne<T extends { [k: string]: any }, R>(
   opts: ResolverOpts<T, R>,
 ): Promise<R> {

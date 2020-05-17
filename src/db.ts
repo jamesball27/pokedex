@@ -1,9 +1,9 @@
-import { createConnection, useContainer, getConnectionOptions } from 'typeorm';
+import { createConnection, useContainer, getConnectionOptions, Connection } from 'typeorm';
 import { Container } from 'typedi';
 
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
-export const setupDB = async () => {
+export const setupDB = async (): Promise<Connection> => {
   useContainer(Container);
   const connectionOptions = await getConnectionOptions();
 

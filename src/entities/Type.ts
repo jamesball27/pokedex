@@ -1,13 +1,5 @@
 import { ObjectType, Field, Int } from 'type-graphql';
-import {
-  Entity,
-  Column,
-  PrimaryColumn,
-  OneToMany,
-  ManyToMany,
-  JoinTable,
-  Transaction,
-} from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
 
 import TypeName from './TypeName';
 import PokemonType from './PokemonType';

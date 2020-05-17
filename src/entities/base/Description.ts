@@ -14,7 +14,7 @@ class Description {
   @Column()
   description: string;
 
-  @Field((type) => Language, { nullable: true })
+  @Field(() => Language, { nullable: true })
   @ManyToOne(() => Language, 'description', { eager: true })
   language: Language;
 }

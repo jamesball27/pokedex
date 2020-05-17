@@ -1,5 +1,5 @@
-import { ObjectType, Field, Int } from 'type-graphql';
-import { Entity, Column, PrimaryColumn, JoinColumn, ManyToOne, ManyToMany } from 'typeorm';
+import { ObjectType } from 'type-graphql';
+import { Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 import Name from './base/Name';
 import Type from './Type';
@@ -7,7 +7,7 @@ import Type from './Type';
 @ObjectType()
 @Entity('typename')
 class TypeName extends Name {
-  @ManyToOne((type) => Type, 'names')
+  @ManyToOne(() => Type, 'names')
   @JoinColumn()
   type: Type;
 }

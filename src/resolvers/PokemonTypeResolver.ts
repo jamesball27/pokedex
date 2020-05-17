@@ -7,7 +7,7 @@ import PokemonType from '../entities/PokemonType';
 import Type from '../entities/Type';
 import resolveManyToOne from './base/resolveManyToOne';
 
-@Resolver((of) => PokemonType)
+@Resolver(() => PokemonType)
 class PokemonTypeResolver {
   constructor(
     @InjectRepository(PokemonType)

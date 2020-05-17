@@ -63,15 +63,15 @@ class PokemonSpecies {
   @Column()
   formsSwitchable: boolean;
 
-  @Field((type) => Pokemon, { nullable: true })
+  @Field(() => Pokemon, { nullable: true })
   @OneToMany(() => Pokemon, 'species')
   pokemon: Pokemon[];
 
-  @Field((type) => GrowthRate, { nullable: true })
+  @Field(() => GrowthRate, { nullable: true })
   @ManyToOne(() => GrowthRate, 'pokemonSpecies')
   growthRate: GrowthRate;
 
-  @Field((type) => EggGroup, { nullable: true })
+  @Field(() => EggGroup, { nullable: true })
   @ManyToMany(() => EggGroup, 'pokemonSpecies')
   @JoinTable({
     name: 'pokemonegggroup',
@@ -80,26 +80,26 @@ class PokemonSpecies {
   })
   eggGroups: EggGroup[];
 
-  @Field((type) => PokemonColor, { nullable: true })
+  @Field(() => PokemonColor, { nullable: true })
   @ManyToOne(() => PokemonColor, 'pokemonSpecies', { eager: true })
   @JoinColumn({ name: 'pokemon_color_id' })
   color: PokemonColor;
 
-  @Field((type) => PokemonShape, { nullable: true })
+  @Field(() => PokemonShape, { nullable: true })
   @ManyToOne(() => PokemonShape, 'pokemonSpecies', { eager: true })
   @JoinColumn({ name: 'pokemon_shape_id' })
   shape: PokemonShape;
 
-  @Field((type) => PokemonHabitat, { nullable: true })
+  @Field(() => PokemonHabitat, { nullable: true })
   @ManyToOne(() => PokemonHabitat, 'pokemonSpecies')
   @JoinColumn({ name: 'pokemon_habitat_id' })
   habitat: PokemonHabitat;
 
-  @Field((type) => PokemonSpeciesName, { nullable: true })
+  @Field(() => PokemonSpeciesName, { nullable: true })
   @OneToMany(() => PokemonSpeciesName, 'species', { eager: true })
   names: PokemonSpeciesName[];
 
-  @Field((type) => PokemonSpeciesFlavorText, { nullable: true })
+  @Field(() => PokemonSpeciesFlavorText, { nullable: true })
   @OneToMany(() => PokemonSpeciesFlavorText, 'pokemonSpecies')
   flavorTextEntries: PokemonSpeciesFlavorText[];
 

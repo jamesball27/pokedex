@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from 'type-graphql';
-import { Entity, Column, PrimaryColumn, OneToMany, ManyToMany, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
 
 import PokemonColorName from './PokemonColorName';
 import PokemonSpecies from './PokemonSpecies';
@@ -16,7 +16,7 @@ class PokemonColor {
   @Column()
   name: string;
 
-  @Field((type) => PokemonColorName, { nullable: true })
+  @Field(() => PokemonColorName, { nullable: true })
   @OneToMany(() => PokemonColorName, 'color', { eager: true })
   names: PokemonColorName[];
 
