@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from 'type-graphql';
-import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
 
 import PokemonSpecies from './PokemonSpecies';
 import GrowthRateDescription from './GrowthRateDescription';
@@ -20,7 +20,7 @@ class GrowthRate {
   @Column()
   formula: string;
 
-  @Field((type) => GrowthRateDescription, { nullable: true })
+  @Field(() => GrowthRateDescription, { nullable: true })
   @OneToMany(() => GrowthRateDescription, 'growthRate', { eager: true })
   descriptions: GrowthRateDescription[];
   // levels

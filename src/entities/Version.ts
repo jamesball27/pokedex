@@ -15,7 +15,7 @@ class Version {
   @Column()
   name: string;
 
-  @Field((type) => PokemonVersionName, { nullable: true })
+  @Field(() => PokemonVersionName, { nullable: true })
   @OneToMany(() => PokemonVersionName, 'version', { eager: true })
   names: PokemonVersionName[];
 }

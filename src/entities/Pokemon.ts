@@ -37,15 +37,15 @@ class Pokemon {
   @Column()
   weight: number;
 
-  @Field((type) => PokemonAbility, { nullable: true })
+  @Field(() => PokemonAbility, { nullable: true })
   @OneToMany(() => PokemonAbility, 'pokemon')
   abilities: PokemonAbility[];
 
-  @Field((type) => PokemonType, { nullable: true })
+  @Field(() => PokemonType, { nullable: true })
   @OneToMany(() => PokemonType, 'pokemon')
   types: PokemonType[];
 
-  @Field((type) => PokemonSpecies, { nullable: true })
+  @Field(() => PokemonSpecies, { nullable: true })
   @ManyToOne(() => PokemonSpecies, 'pokemon')
   @JoinColumn({ name: 'pokemon_species_id' })
   species: PokemonSpecies;

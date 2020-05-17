@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from 'type-graphql';
-import { Entity, Column, PrimaryColumn, OneToMany, ManyToMany, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
 
 import PokemonShapeName from './PokemonShapeName';
 import PokemonSpecies from './PokemonSpecies';
@@ -18,7 +18,7 @@ class PokemonShape {
 
   // awesome_names
 
-  @Field((type) => PokemonShapeName, { nullable: true })
+  @Field(() => PokemonShapeName, { nullable: true })
   @OneToMany(() => PokemonShapeName, 'shape', { eager: true })
   names: PokemonShapeName[];
 

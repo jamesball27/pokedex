@@ -6,7 +6,7 @@ import GrowthRate from '../entities/GrowthRate';
 import GrowthRateDescription from '../entities/GrowthRateDescription';
 import resolveOneToMany from './base/resolveOneToMany';
 
-@Resolver((of) => GrowthRate)
+@Resolver(() => GrowthRate)
 class GrowthRateResolver {
   constructor(
     @InjectRepository(GrowthRateDescription)

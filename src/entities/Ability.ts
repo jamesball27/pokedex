@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from 'type-graphql';
-import { Entity, Column, PrimaryColumn, OneToMany, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
 
 import AbilityName from './AbilityName';
 import PokemonAbility from './PokemonAbility';
@@ -29,7 +29,7 @@ class Ability {
   // effect_entries;
   // effect_changes;
   // flavor_text_entries;
-  @Field((type) => PokemonAbility, { nullable: true })
+  @Field(() => PokemonAbility, { nullable: true })
   @OneToMany(() => PokemonAbility, 'ability')
   pokemon: PokemonAbility[];
 }

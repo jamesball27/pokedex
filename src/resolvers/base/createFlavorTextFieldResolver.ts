@@ -4,9 +4,9 @@ import FlavorText from '../../entities/base/FlavorText';
 import Version from '../../entities/Version';
 import createLanguageFieldResolver from './createLanguageFieldResolver';
 
-function createFlavorTextFieldResolver<T extends FlavorText>(TypeClass: ClassType<T>) {
+function createFlavorTextFieldResolver<T extends FlavorText>(TypeClass: ClassType<T>): ClassType {
   @Resolver(() => TypeClass)
-  abstract class BaseResolver extends createLanguageFieldResolver<T>(TypeClass) {
+  class BaseResolver extends createLanguageFieldResolver<T>(TypeClass) {
     @FieldResolver(() => Version)
     async version(@Root() parent: T): Promise<Version> {
       return this.parentTypeRepository

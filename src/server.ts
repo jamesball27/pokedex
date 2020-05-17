@@ -2,7 +2,7 @@ import { ApolloServer } from 'apollo-server';
 import { buildSchema } from 'type-graphql';
 import { Container } from 'typedi';
 
-export const setupServer = async () => {
+export const setupServer = async (): Promise<void> => {
   const schema = await buildSchema({
     resolvers: [__dirname + '/resolvers/*.ts'],
     container: Container,

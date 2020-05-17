@@ -6,7 +6,7 @@ import Version from '../entities/Version';
 import VersionName from '../entities/VersionName';
 import resolveOneToMany from './base/resolveOneToMany';
 
-@Resolver((of) => Version)
+@Resolver(() => Version)
 class VersionResolver {
   constructor(
     @InjectRepository(VersionName)

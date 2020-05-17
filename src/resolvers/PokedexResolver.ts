@@ -18,7 +18,7 @@ class EntryArgs {
   take: number;
 }
 
-@Resolver((of) => Pokedex)
+@Resolver(() => Pokedex)
 class PokedexResolver {
   constructor(
     @InjectRepository(Pokedex)

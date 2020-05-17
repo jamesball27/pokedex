@@ -1,7 +1,7 @@
 import { Resolver, Query, Field, Int, ArgsType, Args, FieldResolver, Root } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { Min, Max } from 'class-validator';
+import { Min } from 'class-validator';
 
 import Pokemon from '../entities/Pokemon';
 import PokemonAbility from '../entities/PokemonAbility';
@@ -17,7 +17,7 @@ class PokemonArgs {
   id: number;
 }
 
-@Resolver((of) => Pokemon)
+@Resolver(() => Pokemon)
 class PokemonResolver {
   constructor(
     @InjectRepository(Pokemon)

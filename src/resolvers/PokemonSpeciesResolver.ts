@@ -1,4 +1,4 @@
-import { Resolver, Query, Field, Int, ArgsType, Args, FieldResolver, Root } from 'type-graphql';
+import { Resolver, FieldResolver, Root } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
@@ -13,7 +13,7 @@ import PokemonSpeciesFlavorText from '../entities/PokemonSpeciesFlavorText';
 import resolveManyToOne from './base/resolveManyToOne';
 import resolveOneToMany from './base/resolveOneToMany';
 
-@Resolver((of) => PokemonSpecies)
+@Resolver(() => PokemonSpecies)
 class PokemonSpeciesResolver {
   constructor(
     @InjectRepository(PokemonSpecies)

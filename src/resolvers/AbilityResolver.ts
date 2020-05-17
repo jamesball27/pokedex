@@ -7,7 +7,7 @@ import Ability from '../entities/Ability';
 import AbilityName from '../entities/AbilityName';
 import PokemonAbility from '../entities/PokemonAbility';
 
-@Resolver((of) => Ability)
+@Resolver(() => Ability)
 class AbilityResolver {
   constructor(
     @InjectRepository(AbilityName)
