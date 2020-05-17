@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./index.ts",
+    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
+    "migration:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert",
+    "migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create -n",
     "lint": "eslint . --ext .ts"
   },
   "repository": {

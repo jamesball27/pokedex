@@ -7,8 +7,10 @@ export default async () => {
   useContainer(Container);
   const connectionOptions = await getConnectionOptions();
 
-  return await createConnection({
+  const conn = await createConnection({
     ...connectionOptions,
     namingStrategy: new SnakeNamingStrategy(),
   });
+
+  await conn.runMigrations();
 };

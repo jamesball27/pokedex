@@ -1,0 +1,15 @@
+{
+  "type": "postgres",
+  "host": "db",
+  "username": "root",
+  "password": "admin",
+  "database": "pokemon",
+  "entityPrefix": "pokemon_v2_",
+  "synchronize": false,
+  "logging": true,
+  "entities": ["server/entities/*.ts"],
+  "migrations": ["db/migrations/*.ts"],
+  "cli": {
+    "migrationsDir": "db/migrations"
+  }
+}
