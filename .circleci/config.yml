@@ -79,7 +79,8 @@ workflows:
       - deploy:
           requires:
             - lint
-          branches:
-            only:
-              - master
-              - deploy # TODO: remove this branch
+          filters:
+            branches:
+              only:
+                - master
+                - deploy # TODO: remove this branch
