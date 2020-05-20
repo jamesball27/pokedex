@@ -72,3 +72,10 @@ workflows:
       - lint:
           requires:
             - install
+      - build_and_deploy:
+          requires:
+            - lint
+          branches:
+            only:
+              - master
+              - deploy # TODO: remove this branch
