@@ -30,7 +30,6 @@ commands:
       - run: npm run lint
   build_and_deploy:
     steps:
-      - load
       - run:
           name: Build app binary and Docker image
           command: |
@@ -65,6 +64,11 @@ jobs:
     steps:
       - load
       - lint
+  deploy:
+    executor: node
+    steps:
+      - load
+      - build_and_deploy
 workflows:
   all:
     jobs:
@@ -72,7 +76,7 @@ workflows:
       - lint:
           requires:
             - install
-      - build_and_deploy:
+      - deploy:
           requires:
             - lint
           branches:
