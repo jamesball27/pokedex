@@ -1,2 +1,3 @@
 node_modules/
 dump.rdb
+circleci_gcp_keys.json
