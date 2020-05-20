@@ -51,7 +51,7 @@ commands:
       - cloudrun/deploy:
           platform: 'managed'
           image: 'us.gcr.io/$GOOGLE_PROJECT_ID/$IMAGE_NAME'
-          service-name: 'orb-gcp-cloud-run'
+          service-name: 'pokedex'
           region: $GOOGLE_COMPUTE_ZONE
           unauthenticated: true
 jobs:
