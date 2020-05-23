@@ -1,7 +1,7 @@
 {
   "type": "sqlite",
-  "database": "./db.sqlite3",
-  "entities": ["./entities/*.ts"],
+  "database": "./db/db.sqlite3",
+  "entities": ["./types/*.ts"],
   "synchronize": false,
   "logging": true,
   "entityPrefix": "pokemon_v2_"

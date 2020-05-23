@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon ./index.ts",
+    "dev": "nodemon ./server/index.ts --ignore ./client",
     "lint": "eslint . --ext .ts --max-warnings=0",
-    "start": "ts-node ./index.ts"
+    "start": "ts-node ./server/index.ts",
+    "build": "webpack --mode=production",
+    "watch": "webpack --watch --mode=development"
   },
   "repository": {
     "type": "git",
@@ -18,20 +20,27 @@
   "homepage": "https://github.com/jamesball27/pokedex",
   "dependencies": {
     "apollo-server": "^2.12.0",
+    "apollo-server-express": "^2.13.1",
     "class-validator": "^0.12.1",
     "graphql": "^14.1.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^4.1.1",
+    "ts-loader": "^7.0.4",
     "ts-node": "^8.8.1",
     "type-graphql": "^0.17.6",
     "typedi": "^0.8.0",
     "typeorm": "^0.2.24",
     "typeorm-naming-strategies": "^1.1.0",
     "typeorm-typedi-extensions": "^0.2.3",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "webpack": "^4.43.0"
   },
   "devDependencies": {
     "@types/graphql": "^14.5.0",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
     "@types/redis": "^2.8.18",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
@@ -39,6 +48,7 @@
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
     "nodemon": "^2.0.2",
-    "prettier": "^2.0.2"
+    "prettier": "^2.0.2",
+    "webpack-cli": "^3.3.11"
   }
 }

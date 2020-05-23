@@ -1,11 +1,20 @@
 version: '3'
 services:
+  client:
+    command: npm run watch
+    build: .
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    depends_on:
+      - server
   server:
+    command: npm run dev
     build: .
     ports:
       - '3000:3000'
     environment:
       - PORT=3000
     volumes:
-      - ./:/repo
-      - /repo/node_modules
+      - ./:/app
+      - /app/node_modules
