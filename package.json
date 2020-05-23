@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon ./server/index.ts --ignore ./client",
+    "dev": "nodemon ./server/index.ts --ignore ./client",
     "lint": "eslint . --ext .ts --max-warnings=0",
     "start": "ts-node ./server/index.ts",
     "build": "webpack --mode=production",

@@ -6,8 +6,10 @@ services:
     volumes:
       - ./:/app
       - /app/node_modules
+    depends_on:
+      - server
   server:
-    command: npm run start:dev
+    command: npm run dev
     build: .
     ports:
       - '3000:3000'
