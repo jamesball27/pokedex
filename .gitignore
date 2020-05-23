@@ -1,4 +1,4 @@
 node_modules/
 dump.rdb
 circleci_gcp_keys.json
-/dist
+/client/dist/bundle.js

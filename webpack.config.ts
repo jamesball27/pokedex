@@ -1,7 +1,8 @@
 import path from 'path';
 
 module.exports = {
-  entry: './src/client/index.tsx',
+  mode: process.env.NODE_ENV,
+  entry: './client/index.tsx',
   module: {
     rules: [
       {
@@ -16,6 +17,6 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve('dist'),
+    path: path.resolve('client', 'dist'),
   },
 };
