@@ -1,6 +1,7 @@
 import React from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
+import { Layout } from 'antd';
 
 const POKEDEX_QUERY = gql`
   {
@@ -24,7 +25,12 @@ const Pokedex = () => {
     return <h1>ERROR</h1>;
   }
 
-  return <div>{data.pokedex.pokemonEntries.map((d) => d.species.name)}</div>;
+  return (
+    <Layout>
+      <Layout.Sider>Side</Layout.Sider>
+      <Layout.Content>Content</Layout.Content>
+    </Layout>
+  );
 };
 
 export default Pokedex;
