@@ -20,14 +20,14 @@ commands:
         type: string
         default: './node_modules'
     steps:
-      - run: npm install
+      - run: yarn install
       - persist_to_workspace:
           root: ~/app
           paths:
             - << parameters.module_path >>
   lint:
     steps:
-      - run: npm run lint
+      - run: yarn run lint
   build_and_deploy:
     steps:
       - setup_remote_docker
