@@ -12,7 +12,7 @@ export default async (): Promise<Connection> => {
     synchronize: false,
     logging: true,
     entityPrefix: 'pokemon_v2_',
-    database: './db.sqlite3',
+    database: path.resolve('db/db.sqlite3'),
     entities: [path.resolve('types/*.ts')],
     namingStrategy: new SnakeNamingStrategy(),
   });
