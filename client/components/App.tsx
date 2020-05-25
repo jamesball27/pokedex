@@ -1,5 +1,5 @@
 import React from 'react';
-import ApolloClient, { gql } from 'apollo-boost';
+import ApolloClient from 'apollo-boost';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
 
 import Pokedex from './Pokedex';

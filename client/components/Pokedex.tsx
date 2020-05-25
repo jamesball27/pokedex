@@ -3,11 +3,16 @@ import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import { Layout } from 'antd';
 
+import PokemonList from './PokemonList';
+
+const { Sider, Content } = Layout;
+
 const POKEDEX_QUERY = gql`
   {
     pokedex {
       pokemonEntries {
         species {
+          id
           name
         }
       }
@@ -26,9 +31,11 @@ const Pokedex = () => {
   }
 
   return (
-    <Layout>
-      <Layout.Sider>Side</Layout.Sider>
-      <Layout.Content>Content</Layout.Content>
+    <Layout style={{ height: '100%' }}>
+      <Sider width="40%">
+        <PokemonList pokemon={data.pokedex.pokemonEntries} />
+      </Sider>
+      <Content>Content</Content>
     </Layout>
   );
 };
