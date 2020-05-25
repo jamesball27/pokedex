@@ -5,7 +5,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { Container } from 'typedi';
 
-import setupDB from '../db';
+import setupDB from './db';
 
 async function run(): Promise<void> {
   await setupDB();

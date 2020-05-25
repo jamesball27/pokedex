@@ -1,0 +1,7 @@
+{
+  "type": "sqlite",
+  "database": "./db.sqlite3",
+  "synchronize": false,
+  "logging": true,
+  "entityPrefix": "pokemon_v2_"
+}
