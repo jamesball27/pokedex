@@ -39,34 +39,36 @@ const PokemonList: React.FC = () => {
     return <h1>ERROR</h1>;
   }
 
+  const loadMore = () => {
+    fetchMore({
+      variables: {
+        skip: data?.pokedex.pokemonEntries.length,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult || fetchMoreResult.pokedex.pokemonEntries.length === 0) {
+          setHasMore(false);
+          return prev;
+        }
+
+        return {
+          pokedex: {
+            ...prev.pokedex,
+            pokemonEntries: [
+              ...prev.pokedex.pokemonEntries,
+              ...fetchMoreResult.pokedex.pokemonEntries,
+            ],
+          },
+        };
+      },
+    });
+  };
+
   return (
     <div style={{ overflow: 'auto', height: '100%' }} ref={parentRef}>
       <InfiniteScroll
         initialLoad={false}
         pageStart={1}
-        loadMore={() => {
-          fetchMore({
-            variables: {
-              skip: data?.pokedex.pokemonEntries.length,
-            },
-            updateQuery: (prev, { fetchMoreResult }) => {
-              if (!fetchMoreResult || fetchMoreResult.pokedex.pokemonEntries.length === 0) {
-                setHasMore(false);
-                return prev;
-              }
-
-              return {
-                pokedex: {
-                  ...prev.pokedex,
-                  pokemonEntries: [
-                    ...prev.pokedex.pokemonEntries,
-                    ...fetchMoreResult.pokedex.pokemonEntries,
-                  ],
-                },
-              };
-            },
-          });
-        }}
+        loadMore={loadMore}
         hasMore={!loading && hasMore}
         useWindow={false}
         loader={
@@ -79,12 +81,12 @@ const PokemonList: React.FC = () => {
           dataSource={data?.pokedex.pokemonEntries}
           size="large"
           renderItem={(item) => <List.Item key={item.species.id}>{item.species.name}</List.Item>}
-        >
-          <BackTop target={() => parentRef.current || window}>
-            <Button type="primary">Back to Top</Button>
-          </BackTop>
-        </List>
+        />
       </InfiniteScroll>
+
+      <BackTop target={() => parentRef.current || window}>
+        <Button type="primary">Back to Top</Button>
+      </BackTop>
     </div>
   );
 };
