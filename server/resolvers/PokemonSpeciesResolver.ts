@@ -1,4 +1,4 @@
-import { Resolver, FieldResolver, Root } from 'type-graphql';
+import { Resolver, FieldResolver, Root, ArgsType, Arg, Field } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
@@ -13,6 +13,12 @@ import PokemonSpeciesFlavorText from '../../types/PokemonSpeciesFlavorText';
 import resolveManyToOne from './base/resolveManyToOne';
 import resolveOneToMany from './base/resolveOneToMany';
 
+@ArgsType()
+class LangArgs {
+  @Field(() => String, { defaultValue: 'en', nullable: true })
+  lang: string;
+}
+
 @Resolver(() => PokemonSpecies)
 class PokemonSpeciesResolver {
   constructor(
@@ -25,6 +31,18 @@ class PokemonSpeciesResolver {
     @InjectRepository(PokemonSpeciesFlavorText)
     private readonly flavorTextRepository: Repository<PokemonSpeciesFlavorText>,
   ) {}
+
+  @FieldResolver()
+  localeName(
+    @Root() pokemonSpecies: PokemonSpecies,
+    @Arg('lang', { defaultValue: 'en', nullable: true }) lang: string,
+  ): string {
+    // Names are eager loaded, so filter in memory
+    return (
+      pokemonSpecies.names.find((name) => name.language.name === lang)?.name ||
+      'translation not found'
+    );
+  }
 
   @FieldResolver(() => GrowthRate)
   async growthRate(@Root() pokemonSpecies: PokemonSpecies): Promise<GrowthRate> {

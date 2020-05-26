@@ -11,12 +11,14 @@ interface Query {
 }
 
 const POKEDEX_QUERY = gql`
-  query($skip: Int!) {
+  query($skip: Int!, $lang: lang) {
     pokedex {
       pokemonEntries(skip: $skip) {
         species {
           id
-          name
+          names(lang: $lang) {
+            name
+          }
         }
       }
     }
