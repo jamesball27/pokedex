@@ -11,12 +11,13 @@ interface Query {
 }
 
 const POKEDEX_QUERY = gql`
-  query($skip: Int!, $lang: lang) {
+  query($skip: Int!, $lang: String, $defaultPokemon: Boolean) {
     pokedex {
       pokemonEntries(skip: $skip) {
         species {
           id
-          names(lang: $lang) {
+          localeName(lang: $lang)
+          pokemon(default: $defaultPokemon) {
             name
           }
         }
@@ -29,6 +30,8 @@ const PokemonList: React.FC = () => {
   const { loading, error, data, fetchMore } = useQuery<Query>(POKEDEX_QUERY, {
     variables: {
       skip: 0,
+      lang: 'en',
+      defaultPokemon: true,
     },
   });
   const [hasMore, setHasMore] = useState(true);
@@ -82,7 +85,9 @@ const PokemonList: React.FC = () => {
         <List
           dataSource={data?.pokedex.pokemonEntries}
           size="large"
-          renderItem={(item) => <List.Item key={item.species.id}>{item.species.name}</List.Item>}
+          renderItem={(item) => (
+            <List.Item key={item.species.id}>{item.species.localeName}</List.Item>
+          )}
         />
       </InfiniteScroll>
 

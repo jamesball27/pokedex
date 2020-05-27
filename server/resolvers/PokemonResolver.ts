@@ -28,16 +28,6 @@ class PokemonResolver {
     private readonly pokemonTypeRepository: Repository<PokemonType>,
   ) {}
 
-  @Query(() => [Pokemon])
-  async allPokemon(): Promise<Pokemon[]> {
-    return await this.pokemonRepository.find();
-  }
-
-  @Query(() => Pokemon)
-  async pokemon(@Args() { id }: PokemonArgs): Promise<Pokemon> {
-    return this.pokemonRepository.findOneOrFail(id);
-  }
-
   @FieldResolver(() => PokemonAbility)
   async abilities(@Root() pokemon: Pokemon): Promise<PokemonAbility[]> {
     return resolveOneToMany<Pokemon, PokemonAbility>({

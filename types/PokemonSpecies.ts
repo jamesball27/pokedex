@@ -64,7 +64,7 @@ class PokemonSpecies {
   formsSwitchable: boolean;
 
   @Field(() => Pokemon, { nullable: true })
-  @OneToMany(() => Pokemon, 'species')
+  @OneToMany(() => Pokemon, 'species', { eager: true })
   pokemon: Pokemon[];
 
   @Field(() => GrowthRate, { nullable: true })
@@ -103,6 +103,7 @@ class PokemonSpecies {
   @OneToMany(() => PokemonSpeciesFlavorText, 'pokemonSpecies')
   flavorTextEntries: PokemonSpeciesFlavorText[];
 
+  localeName: string;
   // pokedex_numbers
   // evolves_from_species
   // evolution_chain
@@ -110,7 +111,6 @@ class PokemonSpecies {
   // pal_park_encounters
   // form_descriptions
   // genera
-  // varieties
 }
 
 export default PokemonSpecies;

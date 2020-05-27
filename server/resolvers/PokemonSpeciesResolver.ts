@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import PokemonSpecies from '../../types/PokemonSpecies';
+import Pokemon from '../../types/Pokemon';
 import GrowthRate from '../../types/GrowthRate';
 import PokemonColor from '../../types/PokemonColor';
 import PokemonShape from '../../types/PokemonShape';
@@ -13,12 +14,6 @@ import PokemonSpeciesFlavorText from '../../types/PokemonSpeciesFlavorText';
 import resolveManyToOne from './base/resolveManyToOne';
 import resolveOneToMany from './base/resolveOneToMany';
 
-@ArgsType()
-class LangArgs {
-  @Field(() => String, { defaultValue: 'en', nullable: true })
-  lang: string;
-}
-
 @Resolver(() => PokemonSpecies)
 class PokemonSpeciesResolver {
   constructor(
@@ -26,11 +21,24 @@ class PokemonSpeciesResolver {
     private readonly pokemonSpeciesRepository: Repository<PokemonSpecies>,
     @InjectRepository(EggGroup)
     private readonly eggGroupRepository: Repository<EggGroup>,
-    @InjectRepository(PokemonSpeciesName)
-    private readonly nameRepository: Repository<PokemonSpeciesName>,
     @InjectRepository(PokemonSpeciesFlavorText)
     private readonly flavorTextRepository: Repository<PokemonSpeciesFlavorText>,
   ) {}
+
+  @FieldResolver(() => Pokemon)
+  async pokemon(
+    @Root() pokemonSpecies: PokemonSpecies,
+    @Arg('default', { defaultValue: false, nullable: true }) isDefault: boolean,
+  ): Promise<Pokemon[]> {
+    if (isDefault) {
+      return pokemonSpecies.pokemon.reduce(
+        (acc: Pokemon[], p) => (p.isDefault ? [...acc, p] : acc),
+        [],
+      );
+    }
+
+    return pokemonSpecies.pokemon;
+  }
 
   @FieldResolver()
   localeName(
