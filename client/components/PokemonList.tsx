@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
-import { List, Spin, BackTop, Button, Avatar, Typography, Menu, Divider } from 'antd';
+import { List, Spin, BackTop, Button, Avatar, Menu, Skeleton } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
+import styled from 'styled-components';
 
 import Pokedex from '../../types/Pokedex';
 
@@ -30,9 +31,19 @@ const POKEDEX_QUERY = gql`
   }
 `;
 
-const DEFAULT_SPRITE = '/assets/sprites/pokemon/0.png';
+interface Props {
+  collapsed: boolean;
+}
 
-const PokemonList: React.FC = () => {
+const StyledMenuItem = styled(Menu.Item)`
+  height: auto !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: ${(props: Props) => (props.collapsed ? '0 !important' : 'inherit')};
+`;
+
+const PokemonList: React.FC<Props> = ({ collapsed }) => {
   const { loading, error, data, fetchMore } = useQuery<Query>(POKEDEX_QUERY, {
     variables: {
       skip: 0,
@@ -44,7 +55,13 @@ const PokemonList: React.FC = () => {
   const parentRef = useRef(null);
 
   if (loading) {
-    return <Spin />;
+    return (
+      <div
+        style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
+        <Spin size="large" />
+      </div>
+    );
   }
   if (error) {
     return <h1>ERROR</h1>;
@@ -88,34 +105,12 @@ const PokemonList: React.FC = () => {
           </List.Item>
         }
       >
-        {/* <List
-          dataSource={data?.pokedex.pokemonEntries}
-          size="large"
-          renderItem={(item) => (
-            <List.Item key={item.species.id}>
-              <a
-                href={`/${item.species.id}`}
-                style={{ display: 'flex', justifyContent: 'space-between' }}
-              >
-                <Avatar src={item.species.pokemon[0].sprites.front} size={70} shape="square" />
-                {`${item.entryNumber}. ${item.species.localeName}`}
-              </a>
-            </List.Item>
-          )}
-        /> */}
         <Menu theme="dark">
           {data?.pokedex.pokemonEntries.map((p) => (
-            <Menu.Item
-              style={{
-                height: 'auto',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-around',
-              }}
-            >
+            <StyledMenuItem collapsed={collapsed} title={p.species.localeName}>
               <Avatar src={p.species.pokemon[0].sprites.front} size={60} shape="square" />
-              {p.species.localeName}
-            </Menu.Item>
+              {!collapsed && <span>{p.species.localeName}</span>}
+            </StyledMenuItem>
           ))}
         </Menu>
       </InfiniteScroll>
