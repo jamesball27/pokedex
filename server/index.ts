@@ -22,6 +22,7 @@ async function run(): Promise<void> {
   server.applyMiddleware({ app });
 
   app.use(express.static(path.resolve('client', 'dist')));
+  app.use('/assets', express.static(path.resolve('assets')));
 
   app.get('/', (_req, res) => {
     res.sendFile(path.resolve('client', 'dist', 'index.html'));
