@@ -1,7 +1,6 @@
-import { Resolver, Query, Field, Int, ArgsType, Args, FieldResolver, Root } from 'type-graphql';
+import { Resolver, FieldResolver, Root } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { Min } from 'class-validator';
 
 import Pokemon from '../../types/Pokemon';
 import PokemonAbility from '../../types/PokemonAbility';
@@ -10,13 +9,6 @@ import PokemonSpecies from '../../types/PokemonSpecies';
 import resolveOneToMany from './base/resolveOneToMany';
 import resolveManyToOne from './base/resolveManyToOne';
 import PokemonSprite from '../../types/PokemonSprite';
-
-@ArgsType()
-class PokemonArgs {
-  @Field(() => Int, { nullable: false })
-  @Min(1)
-  id: number;
-}
 
 @Resolver(() => Pokemon)
 class PokemonResolver {

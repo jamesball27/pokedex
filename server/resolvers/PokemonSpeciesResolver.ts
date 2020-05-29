@@ -1,4 +1,4 @@
-import { Resolver, FieldResolver, Root, ArgsType, Arg, Field } from 'type-graphql';
+import { Resolver, FieldResolver, Root, Arg } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
@@ -9,7 +9,6 @@ import PokemonColor from '../../types/PokemonColor';
 import PokemonShape from '../../types/PokemonShape';
 import PokemonHabitat from '../../types/PokemonHabitat';
 import EggGroup from '../../types/EggGroup';
-import PokemonSpeciesName from '../../types/PokemonSpeciesName';
 import PokemonSpeciesFlavorText from '../../types/PokemonSpeciesFlavorText';
 import resolveManyToOne from './base/resolveManyToOne';
 import resolveOneToMany from './base/resolveOneToMany';
