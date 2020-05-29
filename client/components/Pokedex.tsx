@@ -9,7 +9,7 @@ const { Sider, Content } = Layout;
 const Pokedex: React.FC = () => {
   return (
     <Layout style={{ height: '100%' }}>
-      <Sider width="40%" theme="light" style={{ height: '100%', overflow: 'scroll' }}>
+      <Sider width="25%" theme="dark" style={{ height: '100%', overflow: 'scroll' }}>
         <PokemonList />
       </Sider>
       <Content>Content</Content>

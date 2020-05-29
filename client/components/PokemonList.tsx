@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
-import { List, Spin, BackTop, Button } from 'antd';
+import { List, Spin, BackTop, Button, Avatar, Typography, Menu, Divider } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import Pokedex from '../../types/Pokedex';
@@ -14,17 +14,23 @@ const POKEDEX_QUERY = gql`
   query($skip: Int!, $lang: String, $defaultPokemon: Boolean) {
     pokedex {
       pokemonEntries(skip: $skip) {
+        entryNumber
         species {
           id
           localeName(lang: $lang)
           pokemon(default: $defaultPokemon) {
-            name
+            sprites {
+              front
+              model
+            }
           }
         }
       }
     }
   }
 `;
+
+const DEFAULT_SPRITE = '/assets/sprites/pokemon/0.png';
 
 const PokemonList: React.FC = () => {
   const { loading, error, data, fetchMore } = useQuery<Query>(POKEDEX_QUERY, {
@@ -82,13 +88,36 @@ const PokemonList: React.FC = () => {
           </List.Item>
         }
       >
-        <List
+        {/* <List
           dataSource={data?.pokedex.pokemonEntries}
           size="large"
           renderItem={(item) => (
-            <List.Item key={item.species.id}>{item.species.localeName}</List.Item>
+            <List.Item key={item.species.id}>
+              <a
+                href={`/${item.species.id}`}
+                style={{ display: 'flex', justifyContent: 'space-between' }}
+              >
+                <Avatar src={item.species.pokemon[0].sprites.front} size={70} shape="square" />
+                {`${item.entryNumber}. ${item.species.localeName}`}
+              </a>
+            </List.Item>
           )}
-        />
+        /> */}
+        <Menu theme="dark">
+          {data?.pokedex.pokemonEntries.map((p) => (
+            <Menu.Item
+              style={{
+                height: 'auto',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-around',
+              }}
+            >
+              <Avatar src={p.species.pokemon[0].sprites.front} size={60} shape="square" />
+              {p.species.localeName}
+            </Menu.Item>
+          ))}
+        </Menu>
       </InfiniteScroll>
 
       <BackTop target={() => parentRef.current || window}>

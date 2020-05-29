@@ -9,6 +9,7 @@ import PokemonType from '../../types/PokemonType';
 import PokemonSpecies from '../../types/PokemonSpecies';
 import resolveOneToMany from './base/resolveOneToMany';
 import resolveManyToOne from './base/resolveManyToOne';
+import PokemonSprite from '../../types/PokemonSprite';
 
 @ArgsType()
 class PokemonArgs {
@@ -27,6 +28,11 @@ class PokemonResolver {
     @InjectRepository(PokemonType)
     private readonly pokemonTypeRepository: Repository<PokemonType>,
   ) {}
+
+  @FieldResolver(() => PokemonSprite)
+  async sprites(@Root() pokemon: Pokemon): Promise<PokemonSprite> {
+    return new PokemonSprite(pokemon.id);
+  }
 
   @FieldResolver(() => PokemonAbility)
   async abilities(@Root() pokemon: Pokemon): Promise<PokemonAbility[]> {
