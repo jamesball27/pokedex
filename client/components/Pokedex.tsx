@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Layout } from 'antd';
 
-import PokemonList from './PokemonList';
+import PokemonList from './PokemonList/PokemonListContainer';
 
 const { Sider, Content } = Layout;
 
