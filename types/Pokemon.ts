@@ -4,7 +4,7 @@ import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne, JoinColumn } from 
 import PokemonAbility from './PokemonAbility';
 import PokemonType from './PokemonType';
 import PokemonSpecies from './PokemonSpecies';
-import PokemonSprite from './PokemonSprite';
+import PokemonImage from './PokemonImage';
 
 @ObjectType()
 @Entity('pokemon')
@@ -51,8 +51,8 @@ class Pokemon {
   @JoinColumn({ name: 'pokemon_species_id' })
   species: PokemonSpecies;
 
-  @Field(() => PokemonSprite, { nullable: true })
-  sprites: PokemonSprite;
+  @Field(() => PokemonImage, { nullable: true })
+  images: PokemonImage;
 
   // location_area_encounters:
   // forms:

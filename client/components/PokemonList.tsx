@@ -5,6 +5,7 @@ import { List, Spin, BackTop, Button, Avatar, Menu, Skeleton } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 import styled from 'styled-components';
 
+import PokemonListItem from './PokemonListItem';
 import Pokedex from '../../types/Pokedex';
 
 interface Query {
@@ -20,9 +21,8 @@ const POKEDEX_QUERY = gql`
           id
           localeName(lang: $lang)
           pokemon(default: $defaultPokemon) {
-            sprites {
-              front
-              model
+            images {
+              sprite
             }
           }
         }
@@ -40,7 +40,7 @@ const StyledMenuItem = styled(Menu.Item)`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: ${(props: Props) => (props.collapsed ? '0 !important' : 'inherit')};
+  padding: ${(props: { collapsed: 1 | 0 }) => (props.collapsed ? '0 !important' : 'inherit')};
 `;
 
 const PokemonList: React.FC<Props> = ({ collapsed }) => {
@@ -63,6 +63,7 @@ const PokemonList: React.FC<Props> = ({ collapsed }) => {
       </div>
     );
   }
+
   if (error) {
     return <h1>ERROR</h1>;
   }
@@ -107,9 +108,16 @@ const PokemonList: React.FC<Props> = ({ collapsed }) => {
       >
         <Menu theme="dark">
           {data?.pokedex.pokemonEntries.map((p) => (
-            <StyledMenuItem collapsed={collapsed} title={p.species.localeName}>
-              <Avatar src={p.species.pokemon[0].sprites.front} size={60} shape="square" />
-              {!collapsed && <span>{p.species.localeName}</span>}
+            <StyledMenuItem
+              collapsed={collapsed ? 1 : 0}
+              title={p.species.localeName}
+              key={p.entryNumber}
+            >
+              <PokemonListItem
+                collapsed={collapsed}
+                name={p.species.localeName}
+                sprite={p.species.pokemon[0].images.sprite}
+              />
             </StyledMenuItem>
           ))}
         </Menu>
