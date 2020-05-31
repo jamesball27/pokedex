@@ -4,6 +4,28 @@ import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
 import TypeName from './TypeName';
 import PokemonType from './PokemonType';
 
+export type Name =
+  | 'bug'
+  | 'dark'
+  | 'dragon'
+  | 'electric'
+  | 'fairy'
+  | 'fighting'
+  | 'fire'
+  | 'flying'
+  | 'ghost'
+  | 'grass'
+  | 'ground'
+  | 'ice'
+  | 'normal'
+  | 'poison'
+  | 'psychic'
+  | 'rock'
+  | 'shadow'
+  | 'steel'
+  | 'water'
+  | 'unknown';
+
 @ObjectType()
 @Entity('type')
 class Type {
@@ -14,7 +36,7 @@ class Type {
 
   @Field()
   @Column()
-  name: string;
+  name: Name;
 
   // damage_relations;
   // game_indices;
@@ -25,6 +47,8 @@ class Type {
   @Field(() => TypeName, { nullable: true })
   @OneToMany(() => TypeName, 'type', { eager: true })
   names: TypeName[];
+
+  localeName: string;
 
   @Field(() => PokemonType, { nullable: true })
   @OneToMany(() => PokemonType, 'type')

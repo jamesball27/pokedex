@@ -1,4 +1,4 @@
-import { Resolver, FieldResolver, Root } from 'type-graphql';
+import { Resolver, FieldResolver, Root, ArgsType, Field, Args } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
@@ -9,6 +9,13 @@ import PokemonSpecies from '../../types/PokemonSpecies';
 import resolveOneToMany from './base/resolveOneToMany';
 import resolveManyToOne from './base/resolveManyToOne';
 import PokemonImage from '../../types/PokemonImage';
+import Type from '../../types/Type';
+
+@ArgsType()
+class LangArg {
+  @Field({ nullable: true, defaultValue: 'en' })
+  lang: string;
+}
 
 @Resolver(() => Pokemon)
 class PokemonResolver {
@@ -35,13 +42,15 @@ class PokemonResolver {
     });
   }
 
-  @FieldResolver(() => PokemonType)
-  async types(@Root() pokemon: Pokemon): Promise<PokemonType[]> {
-    return resolveOneToMany<Pokemon, PokemonType>({
-      repository: this.pokemonTypeRepository,
-      relation: 'pokemon',
-      parentId: pokemon.id,
-    });
+  @FieldResolver(() => Type)
+  async types(@Root() pokemon: Pokemon): Promise<Type[]> {
+    return this.pokemonTypeRepository
+      .find({
+        relations: ['pokemon'],
+        where: { pokemon: { id: pokemon.id } },
+        order: { slot: 'ASC' },
+      })
+      .then((pt) => pt.map((t) => t.type));
   }
 
   @FieldResolver(() => PokemonSpecies)

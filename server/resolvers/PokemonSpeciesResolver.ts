@@ -22,17 +22,12 @@ import EggGroup from '../../types/EggGroup';
 import PokemonSpeciesFlavorText from '../../types/PokemonSpeciesFlavorText';
 import resolveManyToOne from './base/resolveManyToOne';
 import resolveOneToMany from './base/resolveOneToMany';
+import LangArg from './LangArg';
 
 @ArgsType()
 class SpeciesArgs {
   @Field(() => Int, { nullable: false })
   id: number;
-}
-
-@ArgsType()
-class LangArg {
-  @Field({ nullable: true, defaultValue: 'en' })
-  lang: string;
 }
 
 @Resolver(() => PokemonSpecies)

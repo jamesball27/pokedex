@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import { Empty, Card, Typography, Avatar, Row, Col } from 'antd';
 
 import PokemonSpecies from '../../../types/PokemonSpecies';
 import Spinner from '../Spinner';
+import TypeTag from './TypeTag';
 import { CLOUD_STORAGE_BASE_ASSETS_PATH } from '../../config';
 
 interface Query {
@@ -19,6 +20,10 @@ const SPECIES_QUERY = gql`
       pokemon(default: $defaultPokemon) {
         images {
           artwork
+        }
+        types {
+          name
+          localeName(lang: $lang)
         }
       }
     }
@@ -61,6 +66,9 @@ const PokemonDetail: React.FC<Props> = ({ id }) => {
         </Col>
         <Col span={12} offset={2}>
           <Typography.Title>{species.localeName}</Typography.Title>
+          {pokemon.types.map((t) => (
+            <TypeTag name={t.name} localeName={t.localeName} />
+          ))}
           <Typography.Paragraph>{species.flavorText}</Typography.Paragraph>
         </Col>
       </Row>

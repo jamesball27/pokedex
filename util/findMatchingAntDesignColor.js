@@ -228,27 +228,27 @@ function findClosestColor() {
 const matches = findClosestColor();
 for (type in matches) {
   const { color, idx, hex } = matches[type];
-  console.log(`${type}: ${color}-${idx + 1} (#${hex})`);
+  console.log(`${type}: ${color}-${idx} (#${hex})`);
 }
 
 // output:
-// bug: lime-6 (#a0d911)
-// dark: grey-6 (#666666)
-// dragon: purple-6 (#722ed1)
-// electric: gold-5 (#ffc53d)
-// fairy: red-3 (#ffa39e)
-// fighting: red-7 (#cf1322)
-// fire: volcano-5 (#ff7a45)
-// flying: purple-4 (#b37feb)
-// ghost: grey-5 (#737373)
-// grass: green-5 (#73d13d)
-// ground: orange-4 (#ffc069)
-// ice: cyan-3 (#87e8de)
-// normal: grey-1 (#a6a6a6)
-// poison: purple-5 (#9254de)
-// psychic: magenta-5 (#f759ab)
-// rock: lime-5 (#bae637)
-// steel: geekblue-3 (#adc6ff)
-// water: geekblue-5 (#597ef7)
-// unknown: grey-3 (#8c8c8c)
-// shadow: grey-9 (#000000)
+// bug: lime-5 (#a0d911)
+// dark: grey-5 (#666666)
+// dragon: purple-5 (#722ed1)
+// electric: gold-4 (#ffc53d)
+// fairy: red-2 (#ffa39e)
+// fighting: red-6 (#cf1322)
+// fire: volcano-4 (#ff7a45)
+// flying: purple-3 (#b37feb)
+// ghost: grey-4 (#737373)
+// grass: green-4 (#73d13d)
+// ground: orange-3 (#ffc069)
+// ice: cyan-2 (#87e8de)
+// normal: grey-0 (#a6a6a6)
+// poison: purple-4 (#9254de)
+// psychic: magenta-4 (#f759ab)
+// rock: lime-4 (#bae637)
+// steel: geekblue-2 (#adc6ff)
+// water: geekblue-4 (#597ef7)
+// unknown: grey-2 (#8c8c8c)
+// shadow: grey-8 (#000000)
