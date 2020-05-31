@@ -1,7 +1,7 @@
 import React from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
-import { Empty, Card, Typography, Avatar, Row, Col } from 'antd';
+import { Empty, Card, Typography, Row, Col, Space, Statistic } from 'antd';
 
 import PokemonSpecies from '../../../types/PokemonSpecies';
 import Spinner from '../Spinner';
@@ -16,8 +16,11 @@ const SPECIES_QUERY = gql`
     species(id: $id) {
       id
       localeName(lang: $lang)
+      localeGenus(lang: $lang)
       flavorText(lang: $lang)
       pokemon(default: $defaultPokemon) {
+        height
+        weight
         images {
           artwork
         }
@@ -65,11 +68,31 @@ const PokemonDetail: React.FC<Props> = ({ id }) => {
           </Card>
         </Col>
         <Col span={12} offset={2}>
-          <Typography.Title>{species.localeName}</Typography.Title>
-          {pokemon.types.map((t) => (
-            <TypeTag name={t.name} localeName={t.localeName} />
-          ))}
-          <Typography.Paragraph>{species.flavorText}</Typography.Paragraph>
+          <Space direction="vertical" size="large">
+            <Space direction="vertical">
+              <Typography.Title level={1} style={{ marginBottom: '0' }}>
+                {species.localeName}
+              </Typography.Title>
+
+              <Row>
+                {pokemon.types.map((t) => (
+                  <TypeTag key={t.id} name={t.name} localeName={t.localeName} />
+                ))}
+              </Row>
+            </Space>
+
+            <Space direction="vertical" size="small">
+              <Typography.Text strong>{species.localeGenus}</Typography.Text>
+              <Typography.Paragraph>{species.flavorText}</Typography.Paragraph>
+
+              <Space size="large">
+                {/* height given in decimetres */}
+                <Statistic title="Height" value={pokemon.height * 10} suffix={'cm'} precision={0} />
+                {/* weight given in hectograms */}
+                <Statistic title="Weight" value={pokemon.weight / 10} suffix={'kg'} precision={2} />
+              </Space>
+            </Space>
+          </Space>
         </Col>
       </Row>
     </Card>

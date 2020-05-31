@@ -104,6 +104,7 @@ class PokemonSpecies {
   flavorTextEntries: PokemonSpeciesFlavorText[];
 
   localeName: string;
+  localeGenus: string;
   flavorText: string;
 
   // pokedex_numbers
@@ -112,7 +113,6 @@ class PokemonSpecies {
   // generation
   // pal_park_encounters
   // form_descriptions
-  // genera
 }
 
 export default PokemonSpecies;

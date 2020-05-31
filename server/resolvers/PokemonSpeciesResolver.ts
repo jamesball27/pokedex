@@ -70,6 +70,15 @@ class PokemonSpeciesResolver {
     );
   }
 
+  @FieldResolver()
+  localeGenus(@Root() pokemonSpecies: PokemonSpecies, @Args() { lang }: LangArg): string {
+    // Names are eager loaded, so filter in application
+    return (
+      pokemonSpecies.names.find((name) => name.language.name === lang)?.genus ||
+      'translation not found'
+    );
+  }
+
   @FieldResolver(() => String)
   async flavorText(@Root() species: PokemonSpecies, @Args() { lang }: LangArg): Promise<string> {
     return this.flavorTextRepository
