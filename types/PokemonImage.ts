@@ -10,6 +10,11 @@ class PokemonImage {
   }
 
   @Field()
+  get artwork(): string {
+    return `/pokemon/official-artwork/${this.pokemonId}.png`;
+  }
+
+  @Field()
   get nullSprite(): string {
     return '/pokemon/sprites/0.png';
   }

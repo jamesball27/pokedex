@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { ApolloError } from 'apollo-boost';
-import { List, Spin, BackTop, Button, Avatar, Menu, Skeleton } from 'antd';
+import { List, BackTop, Button, Menu } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 import styled from 'styled-components';
 
 import { ContainerProps } from './PokemonListContainer';
+import Spinner from '../Spinner';
 import PokemonListItem from './PokemonListItem';
 import PokemonEntry from '../../../types/PokemonEntry';
 
@@ -35,14 +36,8 @@ const PokemonList: React.FC<Props & ContainerProps> = ({
 }) => {
   const parentRef = useRef(null);
 
-  if (loading) {
-    return (
-      <div
-        style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-      >
-        <Spin size="large" />
-      </div>
-    );
+  if (loading || !data) {
+    return <Spinner size="large" />;
   }
 
   if (error) {
@@ -59,18 +54,18 @@ const PokemonList: React.FC<Props & ContainerProps> = ({
         useWindow={false}
         loader={
           <List.Item key="loader" style={{ display: 'flex', justifyContent: 'center' }}>
-            <Spin />
+            <Spinner size={collapsed ? 'small' : 'default'} />
           </List.Item>
         }
       >
         <Menu
           theme="dark"
-          onClick={(p) => {
+          onSelect={(p) => {
             // MenuItem key is species.id as a string
             onSelect(Number(p.key));
           }}
         >
-          {data?.map((p) => (
+          {data.map((p) => (
             <StyledMenuItem
               collapsed={collapsed ? 1 : 0}
               title={p.species.localeName}

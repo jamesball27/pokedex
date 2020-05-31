@@ -9,7 +9,7 @@ const { Sider, Content } = Layout;
 
 const Pokedex: React.FC = () => {
   const [collapsed, toggleCollapsed] = useState(false);
-  const [selectedPokemon, setSelectedPokemon] = useState();
+  const [selectedPokemon, setSelectedPokemon] = useState(0);
 
   return (
     <Layout style={{ height: '100%' }}>
