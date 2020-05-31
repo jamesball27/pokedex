@@ -1,4 +1,4 @@
-import { Resolver, FieldResolver, Root, ArgsType, Field, Args } from 'type-graphql';
+import { Resolver, FieldResolver, Root, ArgsType, Field } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
@@ -10,12 +10,6 @@ import resolveOneToMany from './base/resolveOneToMany';
 import resolveManyToOne from './base/resolveManyToOne';
 import PokemonImage from '../../types/PokemonImage';
 import Type from '../../types/Type';
-
-@ArgsType()
-class LangArg {
-  @Field({ nullable: true, defaultValue: 'en' })
-  lang: string;
-}
 
 @Resolver(() => Pokemon)
 class PokemonResolver {
