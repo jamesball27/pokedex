@@ -17,7 +17,7 @@ class PokemonType {
   slot: number;
 
   @Field(() => Type, { nullable: true })
-  @ManyToOne(() => Type, 'pokemon')
+  @ManyToOne(() => Type, 'pokemon', { eager: true })
   @JoinColumn()
   type: Type;
 

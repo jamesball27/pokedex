@@ -1,37 +1,14 @@
-import { Resolver, FieldResolver, Root } from 'type-graphql';
-import { Repository } from 'typeorm';
-import { InjectRepository } from 'typeorm-typedi-extensions';
+import { Resolver, FieldResolver, Root, Args } from 'type-graphql';
 
 import Type from '../../types/Type';
-import TypeName from '../../types/TypeName';
-import PokemonType from '../../types/PokemonType';
-import resolveOneToMany from './base/resolveOneToMany';
+import LangArg from './LangArg';
 
 @Resolver(() => Type)
 class TypeResolver {
-  constructor(
-    @InjectRepository(TypeName)
-    private readonly typeNameRepository: Repository<TypeName>,
-    @InjectRepository(PokemonType)
-    private readonly pokemonTypeRepository: Repository<PokemonType>,
-  ) {}
-
-  @FieldResolver(() => TypeName)
-  async names(@Root() type: Type): Promise<TypeName[]> {
-    return resolveOneToMany<Type, TypeName>({
-      repository: this.typeNameRepository,
-      relation: 'type',
-      parentId: type.id,
-    });
-  }
-
-  @FieldResolver(() => PokemonType)
-  async pokemon(@Root() type: Type): Promise<PokemonType[]> {
-    return resolveOneToMany<Type, PokemonType>({
-      repository: this.pokemonTypeRepository,
-      relation: 'type',
-      parentId: type.id,
-    });
+  @FieldResolver()
+  localeName(@Root() type: Type, @Args() { lang }: LangArg): string {
+    // Names are eager loaded, so filter in application
+    return type.names.find((name) => name.language.name === lang)?.name || 'translation not found';
   }
 }
 

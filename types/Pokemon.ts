@@ -5,6 +5,7 @@ import PokemonAbility from './PokemonAbility';
 import PokemonType from './PokemonType';
 import PokemonSpecies from './PokemonSpecies';
 import PokemonImage from './PokemonImage';
+import Type from './Type';
 
 @ObjectType()
 @Entity('pokemon')
@@ -42,9 +43,11 @@ class Pokemon {
   @OneToMany(() => PokemonAbility, 'pokemon')
   abilities: PokemonAbility[];
 
-  @Field(() => PokemonType, { nullable: true })
   @OneToMany(() => PokemonType, 'pokemon')
-  types: PokemonType[];
+  pokemonTypes: PokemonType[];
+
+  @Field(() => Type, { nullable: true })
+  types: Type[];
 
   @Field(() => PokemonSpecies, { nullable: true })
   @ManyToOne(() => PokemonSpecies, 'pokemon')

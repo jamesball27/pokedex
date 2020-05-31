@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, Avatar } from 'antd';
 
-import { CLOUD_STORAGE_BASE_ASSETS_PATH } from '../../config/variables';
+import { CLOUD_STORAGE_BASE_ASSETS_PATH } from '../../config';
 
 interface Props {
   collapsed: boolean;

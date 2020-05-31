@@ -81,12 +81,12 @@ class PokemonSpecies {
   eggGroups: EggGroup[];
 
   @Field(() => PokemonColor, { nullable: true })
-  @ManyToOne(() => PokemonColor, 'pokemonSpecies', { eager: true })
+  @ManyToOne(() => PokemonColor, 'pokemonSpecies')
   @JoinColumn({ name: 'pokemon_color_id' })
   color: PokemonColor;
 
   @Field(() => PokemonShape, { nullable: true })
-  @ManyToOne(() => PokemonShape, 'pokemonSpecies', { eager: true })
+  @ManyToOne(() => PokemonShape, 'pokemonSpecies')
   @JoinColumn({ name: 'pokemon_shape_id' })
   shape: PokemonShape;
 
@@ -104,13 +104,15 @@ class PokemonSpecies {
   flavorTextEntries: PokemonSpeciesFlavorText[];
 
   localeName: string;
+  localeGenus: string;
+  flavorText: string;
+
   // pokedex_numbers
   // evolves_from_species
   // evolution_chain
   // generation
   // pal_park_encounters
   // form_descriptions
-  // genera
 }
 
 export default PokemonSpecies;

@@ -9,6 +9,7 @@ import PokemonSpecies from '../../types/PokemonSpecies';
 import resolveOneToMany from './base/resolveOneToMany';
 import resolveManyToOne from './base/resolveManyToOne';
 import PokemonImage from '../../types/PokemonImage';
+import Type from '../../types/Type';
 
 @Resolver(() => Pokemon)
 class PokemonResolver {
@@ -35,13 +36,15 @@ class PokemonResolver {
     });
   }
 
-  @FieldResolver(() => PokemonType)
-  async types(@Root() pokemon: Pokemon): Promise<PokemonType[]> {
-    return resolveOneToMany<Pokemon, PokemonType>({
-      repository: this.pokemonTypeRepository,
-      relation: 'pokemon',
-      parentId: pokemon.id,
-    });
+  @FieldResolver(() => Type)
+  async types(@Root() pokemon: Pokemon): Promise<Type[]> {
+    return this.pokemonTypeRepository
+      .find({
+        relations: ['pokemon'],
+        where: { pokemon: { id: pokemon.id } },
+        order: { slot: 'ASC' },
+      })
+      .then((pt) => pt.map((t) => t.type));
   }
 
   @FieldResolver(() => PokemonSpecies)
