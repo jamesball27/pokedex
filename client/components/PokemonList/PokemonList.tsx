@@ -1,14 +1,14 @@
 import React, { useState, useRef } from 'react';
+import { ApolloError } from 'apollo-boost';
 import { List, Spin, BackTop, Button, Avatar, Menu, Skeleton } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 import styled from 'styled-components';
 
+import { ContainerProps } from './PokemonListContainer';
 import PokemonListItem from './PokemonListItem';
 import PokemonEntry from '../../../types/PokemonEntry';
-import { ApolloError } from 'apollo-boost';
 
 interface Props {
-  collapsed: boolean;
   data?: PokemonEntry[];
   loadMore: () => void;
   hasMore: boolean;
@@ -24,7 +24,15 @@ const StyledMenuItem = styled(Menu.Item)`
   padding: ${(props: { collapsed: 1 | 0 }) => (props.collapsed ? '0 !important' : 'inherit')};
 `;
 
-const PokemonList: React.FC<Props> = ({ data, collapsed, loadMore, hasMore, loading, error }) => {
+const PokemonList: React.FC<Props & ContainerProps> = ({
+  data,
+  collapsed,
+  loadMore,
+  hasMore,
+  loading,
+  error,
+  onSelect,
+}) => {
   const parentRef = useRef(null);
 
   if (loading) {
@@ -55,12 +63,18 @@ const PokemonList: React.FC<Props> = ({ data, collapsed, loadMore, hasMore, load
           </List.Item>
         }
       >
-        <Menu theme="dark">
+        <Menu
+          theme="dark"
+          onClick={(p) => {
+            // MenuItem key is species.id as a string
+            onSelect(Number(p.key));
+          }}
+        >
           {data?.map((p) => (
             <StyledMenuItem
               collapsed={collapsed ? 1 : 0}
               title={p.species.localeName}
-              key={p.entryNumber}
+              key={p.species.id}
             >
               <PokemonListItem
                 collapsed={collapsed}

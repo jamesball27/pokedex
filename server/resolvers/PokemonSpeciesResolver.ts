@@ -1,4 +1,14 @@
-import { Resolver, FieldResolver, Root, Arg } from 'type-graphql';
+import {
+  Resolver,
+  FieldResolver,
+  Root,
+  Arg,
+  ArgsType,
+  Query,
+  Int,
+  Field,
+  Args,
+} from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
@@ -13,6 +23,12 @@ import PokemonSpeciesFlavorText from '../../types/PokemonSpeciesFlavorText';
 import resolveManyToOne from './base/resolveManyToOne';
 import resolveOneToMany from './base/resolveOneToMany';
 
+@ArgsType()
+class SpeciesArgs {
+  @Field(() => Int, { nullable: false })
+  id: number;
+}
+
 @Resolver(() => PokemonSpecies)
 class PokemonSpeciesResolver {
   constructor(
@@ -23,6 +39,11 @@ class PokemonSpeciesResolver {
     @InjectRepository(PokemonSpeciesFlavorText)
     private readonly flavorTextRepository: Repository<PokemonSpeciesFlavorText>,
   ) {}
+
+  @Query(() => PokemonSpecies)
+  async species(@Args() { id }: SpeciesArgs): Promise<PokemonSpecies> {
+    return this.pokemonSpeciesRepository.findOneOrFail(id);
+  }
 
   @FieldResolver(() => Pokemon)
   async pokemon(
