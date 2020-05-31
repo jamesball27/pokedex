@@ -20,7 +20,7 @@ class FlavorText {
   language: Language;
 
   @Field(() => Version, { nullable: true })
-  @ManyToOne(() => Version, 'flavorText', { eager: true })
+  @ManyToOne(() => Version, 'flavorText')
   version: Version;
 }
 

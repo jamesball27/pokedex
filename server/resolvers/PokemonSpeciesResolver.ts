@@ -29,6 +29,12 @@ class SpeciesArgs {
   id: number;
 }
 
+@ArgsType()
+class LangArg {
+  @Field({ nullable: true, defaultValue: 'en' })
+  lang: string;
+}
+
 @Resolver(() => PokemonSpecies)
 class PokemonSpeciesResolver {
   constructor(
@@ -61,15 +67,25 @@ class PokemonSpeciesResolver {
   }
 
   @FieldResolver()
-  localeName(
-    @Root() pokemonSpecies: PokemonSpecies,
-    @Arg('lang', { defaultValue: 'en', nullable: true }) lang: string,
-  ): string {
-    // Names are eager loaded, so filter in memory
+  localeName(@Root() pokemonSpecies: PokemonSpecies, @Args() { lang }: LangArg): string {
+    // Names are eager loaded, so filter in application
     return (
       pokemonSpecies.names.find((name) => name.language.name === lang)?.name ||
       'translation not found'
     );
+  }
+
+  @FieldResolver(() => String)
+  async flavorText(@Root() species: PokemonSpecies, @Args() { lang }: LangArg): Promise<string> {
+    return this.flavorTextRepository
+      .find({
+        where: { pokemonSpecies: { id: species.id } },
+        order: { version: 'ASC' },
+      })
+      .then((f) => {
+        // language is eager-loaded so filter in application
+        return f.find((f) => f.language.name === lang)?.flavorText || 'translation not found';
+      });
   }
 
   @FieldResolver(() => GrowthRate)

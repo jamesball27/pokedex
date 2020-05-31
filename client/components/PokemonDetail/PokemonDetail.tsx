@@ -15,6 +15,7 @@ const SPECIES_QUERY = gql`
     species(id: $id) {
       id
       localeName(lang: $lang)
+      flavorText(lang: $lang)
       pokemon(default: $defaultPokemon) {
         images {
           artwork
@@ -60,6 +61,7 @@ const PokemonDetail: React.FC<Props> = ({ id }) => {
         </Col>
         <Col span={12} offset={2}>
           <Typography.Title>{species.localeName}</Typography.Title>
+          <Typography.Paragraph>{species.flavorText}</Typography.Paragraph>
         </Col>
       </Row>
     </Card>
