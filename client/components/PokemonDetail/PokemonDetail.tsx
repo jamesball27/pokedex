@@ -59,15 +59,15 @@ const PokemonDetail: React.FC<Props> = ({ id }) => {
   return (
     <Card>
       <Row>
-        <Col span={8}>
-          <Card>
+        <Col span={24} md={8}>
+          <Card bordered={false}>
             <img
               src={`${CLOUD_STORAGE_BASE_ASSETS_PATH}${pokemon.images.artwork}`}
               style={{ width: '100%', height: '100%' }}
             />
           </Card>
         </Col>
-        <Col span={12} offset={2}>
+        <Col span={24} md={12}>
           <Space direction="vertical" size="large">
             <Space direction="vertical">
               <Typography.Title level={1} style={{ marginBottom: '0' }}>
