@@ -9,6 +9,7 @@ import PokemonSpecies from '../../types/PokemonSpecies';
 import resolveOneToMany from './base/resolveOneToMany';
 import resolveManyToOne from './base/resolveManyToOne';
 import PokemonImage from '../../types/PokemonImage';
+import PokemonStat from '../../types/PokemonStat';
 import Type from '../../types/Type';
 
 @Resolver(() => Pokemon)
@@ -20,6 +21,8 @@ class PokemonResolver {
     private readonly pokemonAbilityRepository: Repository<PokemonAbility>,
     @InjectRepository(PokemonType)
     private readonly pokemonTypeRepository: Repository<PokemonType>,
+    @InjectRepository(PokemonStat)
+    private readonly pokemonStatRepository: Repository<PokemonStat>,
   ) {}
 
   @FieldResolver(() => PokemonImage)
@@ -53,6 +56,14 @@ class PokemonResolver {
       repository: this.pokemonRepository,
       relation: 'species',
       parentId: pokemon.id,
+    });
+  }
+
+  @FieldResolver(() => PokemonStat)
+  async stats(@Root() pokemon: Pokemon): Promise<PokemonStat[]> {
+    return this.pokemonStatRepository.find({
+      relations: ['pokemon'],
+      where: { pokemon: { id: pokemon.id } },
     });
   }
 }
