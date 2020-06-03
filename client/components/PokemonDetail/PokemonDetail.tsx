@@ -65,11 +65,11 @@ const PokemonDetail: React.FC<Props> = ({ id }) => {
   const pokemon = species.pokemon[0];
 
   return (
-    <>
+    <Space direction="vertical" size="large" style={{ width: '100%' }}>
       <Row>
         <Card>
           <Row>
-            <Col span={24} md={8}>
+            <Col span={24} md={10}>
               <Card bordered={false}>
                 <img
                   src={`${CLOUD_STORAGE_BASE_ASSETS_PATH}${pokemon.images.artwork}`}
@@ -77,7 +77,7 @@ const PokemonDetail: React.FC<Props> = ({ id }) => {
                 />
               </Card>
             </Col>
-            <Col span={24} md={12}>
+            <Col span={24} md={14}>
               <Space direction="vertical" size="large">
                 <Space direction="vertical">
                   <Typography.Title level={1} style={{ marginBottom: '0' }}>
@@ -125,20 +125,21 @@ const PokemonDetail: React.FC<Props> = ({ id }) => {
 
             <Radar
               responsive
-              angleField="Name"
-              radiusField="Stat"
-              data={pokemon.stats.map((s) => ({ Name: s.stat.localeName, Stat: s.baseStat }))}
+              angleField="name"
+              radiusField="stat"
+              data={pokemon.stats.map((s) => ({ name: s.stat.localeName, stat: s.baseStat }))}
               radiusAxis={{
                 grid: {
                   alternateColor: ['', geekblue[0]],
                 },
                 tickInterval: 15,
               }}
+              tooltip={{ visible: false }}
             />
           </Card>
         </Col>
       </Row>
-    </>
+    </Space>
   );
 };
 
