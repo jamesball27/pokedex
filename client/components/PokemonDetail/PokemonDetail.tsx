@@ -2,6 +2,8 @@ import React from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import { Empty, Card, Typography, Row, Col, Space, Statistic } from 'antd';
+import { Radar } from '@ant-design/charts';
+import { geekblue } from '@ant-design/colors';
 
 import PokemonSpecies from '../../../types/PokemonSpecies';
 import Spinner from '../Spinner';
@@ -27,6 +29,12 @@ const SPECIES_QUERY = gql`
         types {
           name
           localeName(lang: $lang)
+        }
+        stats {
+          baseStat
+          stat {
+            localeName(lang: $lang)
+          }
         }
       }
     }
@@ -57,45 +65,80 @@ const PokemonDetail: React.FC<Props> = ({ id }) => {
   const pokemon = species.pokemon[0];
 
   return (
-    <Card>
+    <>
       <Row>
-        <Col span={24} md={8}>
-          <Card bordered={false}>
-            <img
-              src={`${CLOUD_STORAGE_BASE_ASSETS_PATH}${pokemon.images.artwork}`}
-              style={{ width: '100%', height: '100%' }}
+        <Card>
+          <Row>
+            <Col span={24} md={8}>
+              <Card bordered={false}>
+                <img
+                  src={`${CLOUD_STORAGE_BASE_ASSETS_PATH}${pokemon.images.artwork}`}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </Card>
+            </Col>
+            <Col span={24} md={12}>
+              <Space direction="vertical" size="large">
+                <Space direction="vertical">
+                  <Typography.Title level={1} style={{ marginBottom: '0' }}>
+                    {species.localeName}
+                  </Typography.Title>
+
+                  <Row>
+                    {pokemon.types.map((t) => (
+                      <TypeTag key={t.id} name={t.name} localeName={t.localeName} />
+                    ))}
+                  </Row>
+                </Space>
+
+                <Space direction="vertical" size="small">
+                  <Typography.Text strong>{species.localeGenus}</Typography.Text>
+                  <Typography.Paragraph>{species.flavorText}</Typography.Paragraph>
+
+                  <Space size="large">
+                    {/* height given in decimetres */}
+                    <Statistic
+                      title="Height"
+                      value={pokemon.height * 10}
+                      suffix={'cm'}
+                      precision={0}
+                    />
+                    {/* weight given in hectograms */}
+                    <Statistic
+                      title="Weight"
+                      value={pokemon.weight / 10}
+                      suffix={'kg'}
+                      precision={2}
+                    />
+                  </Space>
+                </Space>
+              </Space>
+            </Col>
+          </Row>
+        </Card>
+      </Row>
+
+      <Row>
+        <Col span={24} lg={12}>
+          <Card>
+            <Typography.Title level={3}>Base Statistics</Typography.Title>
+
+            <Radar
+              responsive
+              angleField="Name"
+              radiusField="Stat"
+              data={pokemon.stats.map((s) => ({ Name: s.stat.localeName, Stat: s.baseStat }))}
+              radiusAxis={{
+                grid: {
+                  alternateColor: ['', geekblue[0]],
+                },
+                tickInterval: 15,
+              }}
             />
           </Card>
         </Col>
-        <Col span={24} md={12}>
-          <Space direction="vertical" size="large">
-            <Space direction="vertical">
-              <Typography.Title level={1} style={{ marginBottom: '0' }}>
-                {species.localeName}
-              </Typography.Title>
-
-              <Row>
-                {pokemon.types.map((t) => (
-                  <TypeTag key={t.id} name={t.name} localeName={t.localeName} />
-                ))}
-              </Row>
-            </Space>
-
-            <Space direction="vertical" size="small">
-              <Typography.Text strong>{species.localeGenus}</Typography.Text>
-              <Typography.Paragraph>{species.flavorText}</Typography.Paragraph>
-
-              <Space size="large">
-                {/* height given in decimetres */}
-                <Statistic title="Height" value={pokemon.height * 10} suffix={'cm'} precision={0} />
-                {/* weight given in hectograms */}
-                <Statistic title="Weight" value={pokemon.weight / 10} suffix={'kg'} precision={2} />
-              </Space>
-            </Space>
-          </Space>
-        </Col>
       </Row>
-    </Card>
+    </>
   );
 };
 
