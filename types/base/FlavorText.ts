@@ -3,6 +3,7 @@ import { Column, PrimaryColumn, ManyToOne } from 'typeorm';
 
 import Language from '../Language';
 import Version from '../Version';
+import VersionGroup from '../VersionGroup';
 
 @ObjectType()
 class FlavorText {
@@ -18,10 +19,6 @@ class FlavorText {
   @Field(() => Language, { nullable: true })
   @ManyToOne(() => Language, 'flavorText', { eager: true })
   language: Language;
-
-  @Field(() => Version, { nullable: true })
-  @ManyToOne(() => Version, 'flavorText')
-  version: Version;
 }
 
 export default FlavorText;

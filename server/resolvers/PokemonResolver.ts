@@ -10,7 +10,9 @@ import resolveOneToMany from './base/resolveOneToMany';
 import resolveManyToOne from './base/resolveManyToOne';
 import PokemonImage from '../../types/PokemonImage';
 import PokemonStat from '../../types/PokemonStat';
+import PokemonMove from '../../types/PokemonMove';
 import Type from '../../types/Type';
+import Move from '../../types/Move';
 
 @Resolver(() => Pokemon)
 class PokemonResolver {
@@ -23,6 +25,8 @@ class PokemonResolver {
     private readonly pokemonTypeRepository: Repository<PokemonType>,
     @InjectRepository(PokemonStat)
     private readonly pokemonStatRepository: Repository<PokemonStat>,
+    @InjectRepository(PokemonMove)
+    private readonly pokemonMoveRepository: Repository<PokemonMove>,
   ) {}
 
   @FieldResolver(() => PokemonImage)
@@ -65,6 +69,27 @@ class PokemonResolver {
       relations: ['pokemon'],
       where: { pokemon: { id: pokemon.id } },
     });
+  }
+
+  @FieldResolver(() => Move)
+  async moves(@Root() pokemon: Pokemon): Promise<Move[]> {
+    // Only select Moves from Pokemon's first version appearance that are learned by levelling up
+    return this.pokemonMoveRepository
+      .find({
+        relations: ['pokemon'],
+        where: { pokemon: { id: pokemon.id } },
+        order: { versionGroupId: 'ASC', moveLearnMethodId: 'ASC' },
+      })
+      .then((ms) => {
+        const firstVersion = ms[0].versionGroupId;
+        const firstMoveLearnMethod = ms[0].moveLearnMethodId;
+        return ms
+          .filter(
+            (pm) =>
+              pm.versionGroupId === firstVersion && pm.moveLearnMethodId === firstMoveLearnMethod,
+          )
+          .map((pm) => pm.move);
+      });
   }
 }
 
