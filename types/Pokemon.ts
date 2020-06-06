@@ -6,6 +6,9 @@ import PokemonType from './PokemonType';
 import PokemonSpecies from './PokemonSpecies';
 import PokemonImage from './PokemonImage';
 import Type from './Type';
+import PokemonStat from './PokemonStat';
+import PokemonMove from './PokemonMove';
+import Move from './Move';
 
 @ObjectType()
 @Entity('pokemon')
@@ -57,12 +60,20 @@ class Pokemon {
   @Field(() => PokemonImage, { nullable: true })
   images: PokemonImage;
 
+  @Field(() => PokemonStat, { nullable: true })
+  @OneToMany(() => PokemonStat, 'pokemon')
+  stats: PokemonStat[];
+
+  @OneToMany(() => PokemonMove, 'pokemon')
+  pokemonMoves: PokemonMove[];
+
+  @Field(() => Move, { nullable: true })
+  moves: Move[];
+
   // location_area_encounters:
   // forms:
   // game_indices
   // held_items
-  // moves
-  // stats
 }
 
 export default Pokemon;

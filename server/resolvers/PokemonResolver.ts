@@ -1,6 +1,7 @@
 import { Resolver, FieldResolver, Root } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
+import uniqBy from 'lodash.uniqby';
 
 import Pokemon from '../../types/Pokemon';
 import PokemonAbility from '../../types/PokemonAbility';
@@ -9,7 +10,10 @@ import PokemonSpecies from '../../types/PokemonSpecies';
 import resolveOneToMany from './base/resolveOneToMany';
 import resolveManyToOne from './base/resolveManyToOne';
 import PokemonImage from '../../types/PokemonImage';
+import PokemonStat from '../../types/PokemonStat';
+import PokemonMove from '../../types/PokemonMove';
 import Type from '../../types/Type';
+import Move from '../../types/Move';
 
 @Resolver(() => Pokemon)
 class PokemonResolver {
@@ -20,6 +24,10 @@ class PokemonResolver {
     private readonly pokemonAbilityRepository: Repository<PokemonAbility>,
     @InjectRepository(PokemonType)
     private readonly pokemonTypeRepository: Repository<PokemonType>,
+    @InjectRepository(PokemonStat)
+    private readonly pokemonStatRepository: Repository<PokemonStat>,
+    @InjectRepository(PokemonMove)
+    private readonly pokemonMoveRepository: Repository<PokemonMove>,
   ) {}
 
   @FieldResolver(() => PokemonImage)
@@ -54,6 +62,38 @@ class PokemonResolver {
       relation: 'species',
       parentId: pokemon.id,
     });
+  }
+
+  @FieldResolver(() => PokemonStat)
+  async stats(@Root() pokemon: Pokemon): Promise<PokemonStat[]> {
+    return this.pokemonStatRepository.find({
+      relations: ['pokemon'],
+      where: { pokemon: { id: pokemon.id } },
+    });
+  }
+
+  @FieldResolver(() => Move)
+  async moves(@Root() pokemon: Pokemon): Promise<Move[]> {
+    // Only select unique Moves from Pokemon's first version appearance that are learned by levelling up
+    return this.pokemonMoveRepository
+      .find({
+        relations: ['pokemon'],
+        where: { pokemon: { id: pokemon.id } },
+        order: { versionGroupId: 'ASC', moveLearnMethodId: 'ASC' },
+      })
+      .then((ms) => {
+        const firstVersion = ms[0].versionGroupId;
+        const firstMoveLearnMethod = ms[0].moveLearnMethodId;
+
+        const moves = ms
+          .filter(
+            (pm) =>
+              pm.versionGroupId === firstVersion && pm.moveLearnMethodId === firstMoveLearnMethod,
+          )
+          .map((pm) => pm.move);
+
+        return uniqBy(moves, (m) => m.id);
+      });
   }
 }
 

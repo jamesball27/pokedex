@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Layout } from 'antd';
 
 import PokemonList from './PokemonList/PokemonListContainer';
-import PokemonDetail from './PokemonDetail/PokemonDetail';
+import PokemonDetail from './PokemonDetail/PokemonDetailContainer';
 
 const { Sider, Content } = Layout;
 
@@ -14,20 +14,24 @@ const Pokedex: React.FC = () => {
   return (
     <Layout style={{ height: '100%' }}>
       <Sider
+        defaultCollapsed={collapsed}
         collapsed={collapsed}
         collapsible
-        onCollapse={() => toggleCollapsed(!collapsed)}
-        onBreakpoint={() => toggleCollapsed(!collapsed)}
-        breakpoint="md"
+        onCollapse={(isCollapsed) => toggleCollapsed(isCollapsed)}
+        breakpoint="lg"
         width="200px"
         theme="dark"
         style={{ height: '100%', overflow: 'scroll' }}
       >
-        <PokemonList collapsed={collapsed} onSelect={setSelectedPokemon} />
+        <PokemonList
+          collapsed={collapsed}
+          selectedPokemon={selectedPokemon}
+          onSelect={setSelectedPokemon}
+        />
       </Sider>
 
-      <Content style={{ margin: '5%' }}>
-        <PokemonDetail id={selectedPokemon} />
+      <Content style={{ padding: '5%' }}>
+        <PokemonDetail id={selectedPokemon} setSelectedPokemon={setSelectedPokemon} />
       </Content>
     </Layout>
   );

@@ -3,6 +3,7 @@ import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
 
 import TypeName from './TypeName';
 import PokemonType from './PokemonType';
+import Move from './Move';
 
 export type Name =
   | 'bug'
@@ -53,6 +54,10 @@ class Type {
   @Field(() => PokemonType, { nullable: true })
   @OneToMany(() => PokemonType, 'type')
   pokemon: PokemonType[];
+
+  @Field(() => Move, { nullable: true })
+  @OneToMany(() => Move, 'type')
+  moves: Move[];
 }
 
 export default Type;

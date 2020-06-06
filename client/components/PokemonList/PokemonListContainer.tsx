@@ -30,10 +30,15 @@ const POKEDEX_QUERY = gql`
 
 export interface ContainerProps {
   collapsed: boolean;
+  selectedPokemon: number;
   onSelect: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const PokemonListContainer: React.FC<ContainerProps> = ({ collapsed, onSelect }) => {
+const PokemonListContainer: React.FC<ContainerProps> = ({
+  collapsed,
+  selectedPokemon,
+  onSelect,
+}) => {
   const { loading, error, data, fetchMore } = useQuery<Query>(POKEDEX_QUERY, {
     variables: {
       skip: 0,
@@ -75,6 +80,7 @@ const PokemonListContainer: React.FC<ContainerProps> = ({ collapsed, onSelect })
       loadMore={loadMore}
       hasMore={hasMore}
       collapsed={collapsed}
+      selectedPokemon={selectedPokemon}
       onSelect={onSelect}
     />
   );
