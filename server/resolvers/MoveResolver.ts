@@ -1,4 +1,4 @@
-import { Resolver, FieldResolver, Root, Args, ArgsType, Field, Int } from 'type-graphql';
+import { Resolver, FieldResolver, Root, Args } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
@@ -7,12 +7,6 @@ import MoveFlavorText from '../../types/MoveFlavorText';
 import LangArg from './LangArg';
 import Type from '../../types/Type';
 import resolveManyToOne from './base/resolveManyToOne';
-
-@ArgsType()
-class MoveArgs {
-  @Field(() => Int, { nullable: false })
-  id: number;
-}
 
 @Resolver(() => Move)
 class MoveResolver {

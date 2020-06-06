@@ -87,7 +87,7 @@ class PokemonResolver {
 
         const moves = ms
           .filter(
-            (pm, i, self) =>
+            (pm) =>
               pm.versionGroupId === firstVersion && pm.moveLearnMethodId === firstMoveLearnMethod,
           )
           .map((pm) => pm.move);

@@ -2,8 +2,6 @@ import { ObjectType, Field, Int } from 'type-graphql';
 import { Column, PrimaryColumn, ManyToOne } from 'typeorm';
 
 import Language from '../Language';
-import Version from '../Version';
-import VersionGroup from '../VersionGroup';
 
 @ObjectType()
 class FlavorText {
