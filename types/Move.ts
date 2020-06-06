@@ -35,6 +35,7 @@ class Move {
   names: MoveName[];
 
   localeName: string;
+  flavorText: string;
 
   @Field(() => PokemonMove, { nullable: true })
   @OneToMany(() => PokemonMove, 'move')

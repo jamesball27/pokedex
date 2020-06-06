@@ -1,7 +1,7 @@
 import React from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
-import { Empty, Card, Typography, Row, Col, Space, Statistic } from 'antd';
+import { Empty, Card, Typography, Row, Col, Space, Statistic, Collapse } from 'antd';
 import { Radar } from '@ant-design/charts';
 import { geekblue } from '@ant-design/colors';
 
@@ -36,6 +36,17 @@ const SPECIES_QUERY = gql`
             localeName(lang: $lang)
           }
         }
+        moves {
+          id
+          accuracy
+          power
+          flavorText(lang: $lang)
+          localeName(lang: $lang)
+          type {
+            name
+            localeName(lang: $lang)
+          }
+        }
       }
     }
   }
@@ -67,9 +78,9 @@ const PokemonDetail: React.FC<Props> = ({ id }) => {
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
       <Row>
-        <Card>
+        <Card style={{ width: '100%' }}>
           <Row>
-            <Col span={24} md={10}>
+            <Col span={24} sm={8} md={10} lg={12}>
               <Card bordered={false}>
                 <img
                   src={`${CLOUD_STORAGE_BASE_ASSETS_PATH}${pokemon.images.artwork}`}
@@ -77,7 +88,7 @@ const PokemonDetail: React.FC<Props> = ({ id }) => {
                 />
               </Card>
             </Col>
-            <Col span={24} md={14}>
+            <Col span={24} sm={16} md={14} lg={12}>
               <Space direction="vertical" size="large">
                 <Space direction="vertical">
                   <Typography.Title level={1} style={{ marginBottom: '0' }}>
@@ -118,10 +129,10 @@ const PokemonDetail: React.FC<Props> = ({ id }) => {
         </Card>
       </Row>
 
-      <Row>
+      <Row gutter={[24, 24]}>
         <Col span={24} lg={12}>
-          <Card>
-            <Typography.Title level={3}>Base Statistics</Typography.Title>
+          <Card style={{ height: '100%' }}>
+            <Typography.Title level={3}>Statistics</Typography.Title>
 
             <Radar
               responsive
@@ -136,6 +147,46 @@ const PokemonDetail: React.FC<Props> = ({ id }) => {
               }}
               tooltip={{ visible: false }}
             />
+          </Card>
+        </Col>
+
+        <Col span={24} lg={12}>
+          <Card style={{ height: '100%', maxHeight: '600px', overflow: 'scroll' }}>
+            <Typography.Title level={3}>Moves</Typography.Title>
+
+            <Collapse accordion defaultActiveKey="0">
+              {pokemon.moves.map((m, i) => (
+                <Collapse.Panel
+                  key={i === 0 ? i : m.id}
+                  header={m.localeName}
+                  extra={<TypeTag name={m.type.name} localeName={m.type.localeName} />}
+                >
+                  <Row align="middle" gutter={16} justify="space-between">
+                    <Col span={12}>
+                      <Typography.Text>{m.flavorText}</Typography.Text>
+                    </Col>
+
+                    <Col span={12}>
+                      <Row justify="space-around">
+                        <Statistic
+                          title="Accuracy"
+                          formatter={(v) => (v === null ? 'n/a' : v)}
+                          value={m.accuracy}
+                          suffix={m.accuracy === null ? '' : '%'}
+                          precision={0}
+                        />
+                        <Statistic
+                          title="Power"
+                          formatter={(v) => (v === null ? 'n/a' : v)}
+                          value={m.power}
+                          precision={0}
+                        />
+                      </Row>
+                    </Col>
+                  </Row>
+                </Collapse.Panel>
+              ))}
+            </Collapse>
           </Card>
         </Col>
       </Row>

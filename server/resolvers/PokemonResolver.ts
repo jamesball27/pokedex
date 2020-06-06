@@ -1,6 +1,7 @@
 import { Resolver, FieldResolver, Root } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
+import uniqBy from 'lodash.uniqby';
 
 import Pokemon from '../../types/Pokemon';
 import PokemonAbility from '../../types/PokemonAbility';
@@ -73,7 +74,7 @@ class PokemonResolver {
 
   @FieldResolver(() => Move)
   async moves(@Root() pokemon: Pokemon): Promise<Move[]> {
-    // Only select Moves from Pokemon's first version appearance that are learned by levelling up
+    // Only select unique Moves from Pokemon's first version appearance that are learned by levelling up
     return this.pokemonMoveRepository
       .find({
         relations: ['pokemon'],
@@ -83,12 +84,15 @@ class PokemonResolver {
       .then((ms) => {
         const firstVersion = ms[0].versionGroupId;
         const firstMoveLearnMethod = ms[0].moveLearnMethodId;
-        return ms
+
+        const moves = ms
           .filter(
-            (pm) =>
+            (pm, i, self) =>
               pm.versionGroupId === firstVersion && pm.moveLearnMethodId === firstMoveLearnMethod,
           )
           .map((pm) => pm.move);
+
+        return uniqBy(moves, (m) => m.id);
       });
   }
 }

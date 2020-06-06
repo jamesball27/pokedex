@@ -26,7 +26,7 @@ const Pokedex: React.FC = () => {
         <PokemonList collapsed={collapsed} onSelect={setSelectedPokemon} />
       </Sider>
 
-      <Content style={{ padding: '24px' }}>
+      <Content style={{ padding: '5%' }}>
         <PokemonDetail id={selectedPokemon} />
       </Content>
     </Layout>
