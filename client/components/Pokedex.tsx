@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Layout } from 'antd';
 
 import PokemonList from './PokemonList/PokemonListContainer';
-import PokemonDetail from './PokemonDetail/PokemonDetail';
+import PokemonDetail from './PokemonDetail/PokemonDetailContainer';
 
 const { Sider, Content } = Layout;
 
@@ -23,7 +23,11 @@ const Pokedex: React.FC = () => {
         theme="dark"
         style={{ height: '100%', overflow: 'scroll' }}
       >
-        <PokemonList collapsed={collapsed} onSelect={setSelectedPokemon} />
+        <PokemonList
+          collapsed={collapsed}
+          selectedPokemon={selectedPokemon}
+          onSelect={setSelectedPokemon}
+        />
       </Sider>
 
       <Content style={{ padding: '5%' }}>

@@ -32,6 +32,7 @@ const PokemonList: React.FC<Props & ContainerProps> = ({
   hasMore,
   loading,
   error,
+  selectedPokemon,
   onSelect,
 }) => {
   const parentRef = useRef(null);
@@ -60,6 +61,7 @@ const PokemonList: React.FC<Props & ContainerProps> = ({
       >
         <Menu
           theme="dark"
+          selectedKeys={[selectedPokemon.toString()]}
           onSelect={(p) => {
             // MenuItem key is species.id as a string
             onSelect(Number(p.key));
