@@ -27,7 +27,7 @@ const Pokedex: React.FC = () => {
       </Sider>
 
       <Content style={{ padding: '5%' }}>
-        <PokemonDetail id={selectedPokemon} />
+        <PokemonDetail id={selectedPokemon} setSelectedPokemon={setSelectedPokemon} />
       </Content>
     </Layout>
   );

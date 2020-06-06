@@ -107,6 +107,14 @@ class PokemonSpecies {
   localeGenus: string;
   flavorText: string;
 
+  @Column()
+  evolutionChainId: number;
+
+  @Column()
+  evolvesFromSpeciesId: number;
+
+  @Field(() => PokemonSpecies)
+  evolution: PokemonSpecies[];
   // pokedex_numbers
   // evolves_from_species
   // evolution_chain

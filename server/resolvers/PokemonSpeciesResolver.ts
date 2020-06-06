@@ -81,7 +81,7 @@ class PokemonSpeciesResolver {
 
   @FieldResolver(() => String)
   async flavorText(@Root() species: PokemonSpecies, @Args() { lang }: LangArg): Promise<string> {
-    return this.flavorTextRepository
+    return await this.flavorTextRepository
       .find({
         where: { pokemonSpecies: { id: species.id } },
         order: { version: 'ASC' },
@@ -90,6 +90,14 @@ class PokemonSpeciesResolver {
         // language is eager-loaded so filter in application
         return f.find((f) => f.language.name === lang)?.flavorText || 'translation not found';
       });
+  }
+
+  @FieldResolver(() => PokemonSpecies)
+  async evolution(@Root() species: PokemonSpecies): Promise<PokemonSpecies[]> {
+    return await this.pokemonSpeciesRepository.find({
+      where: { evolutionChainId: species.evolutionChainId },
+      order: { order: 'ASC' },
+    });
   }
 
   @FieldResolver(() => GrowthRate)

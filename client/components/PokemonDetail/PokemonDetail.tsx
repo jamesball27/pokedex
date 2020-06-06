@@ -1,7 +1,7 @@
 import React from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
-import { Empty, Card, Typography, Row, Col, Space, Statistic, Collapse } from 'antd';
+import { Empty, Card, Typography, Row, Col, Space, Statistic, Collapse, Steps, Avatar } from 'antd';
 import { Radar } from '@ant-design/charts';
 import { geekblue } from '@ant-design/colors';
 
@@ -13,6 +13,7 @@ import { CLOUD_STORAGE_BASE_ASSETS_PATH } from '../../config';
 interface Query {
   species: PokemonSpecies;
 }
+
 const SPECIES_QUERY = gql`
   query($id: Int!, $lang: String, $defaultPokemon: Boolean) {
     species(id: $id) {
@@ -48,15 +49,30 @@ const SPECIES_QUERY = gql`
           }
         }
       }
+      evolution {
+        id
+        localeName
+        pokemon(default: $defaultPokemon) {
+          images {
+            sprite
+            artwork
+          }
+          types {
+            name
+            localeName(lang: $lang)
+          }
+        }
+      }
     }
   }
 `;
 
 interface Props {
   id?: number;
+  setSelectedPokemon: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const PokemonDetail: React.FC<Props> = ({ id }) => {
+const PokemonDetail: React.FC<Props> = ({ id, setSelectedPokemon }) => {
   if (!id) {
     return <Empty />;
   }
@@ -129,7 +145,7 @@ const PokemonDetail: React.FC<Props> = ({ id }) => {
         </Card>
       </Row>
 
-      <Row gutter={[24, 24]}>
+      <Row gutter={[24, { xs: 24, sm: 24, md: 24, lg: 0 }]}>
         <Col span={24} lg={12}>
           <Card style={{ height: '100%' }}>
             <Typography.Title level={3}>Statistics</Typography.Title>
@@ -189,6 +205,32 @@ const PokemonDetail: React.FC<Props> = ({ id }) => {
             </Collapse>
           </Card>
         </Col>
+      </Row>
+
+      <Row>
+        <Card style={{ width: '100%' }}>
+          <Typography.Title level={3}>Evolution</Typography.Title>
+
+          <Steps
+            progressDot
+            current={species.evolution.map((s) => s.id).indexOf(species.id)}
+            onChange={(current) => setSelectedPokemon(species.evolution[current].id)}
+          >
+            {species.evolution.map((s) => (
+              <Steps.Step
+                key={s.id}
+                title={
+                  <Avatar
+                    src={`${CLOUD_STORAGE_BASE_ASSETS_PATH}${s.pokemon[0].images.sprite}`}
+                    shape="square"
+                    size={60}
+                  />
+                }
+                subTitle={s.localeName}
+              />
+            ))}
+          </Steps>
+        </Card>
       </Row>
     </Space>
   );
