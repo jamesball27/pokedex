@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { ApolloError } from 'apollo-boost';
-import { List, BackTop, Button, Menu } from 'antd';
+import { List, Menu } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 import styled from 'styled-components';
 
@@ -32,11 +32,8 @@ const PokemonList: React.FC<Props & ContainerProps> = ({
   hasMore,
   loading,
   error,
-  selectedPokemon,
   onSelect,
 }) => {
-  const parentRef = useRef(null);
-
   if (loading || !data) {
     return <Spinner size="large" />;
   }
@@ -46,7 +43,7 @@ const PokemonList: React.FC<Props & ContainerProps> = ({
   }
 
   return (
-    <div style={{ overflow: 'auto', height: '100%' }} ref={parentRef}>
+    <div style={{ overflow: 'auto', height: '100%' }}>
       <InfiniteScroll
         initialLoad={false}
         pageStart={1}
@@ -82,10 +79,6 @@ const PokemonList: React.FC<Props & ContainerProps> = ({
           ))}
         </Menu>
       </InfiniteScroll>
-
-      <BackTop target={() => parentRef.current || window}>
-        <Button type="primary">Back to Top</Button>
-      </BackTop>
     </div>
   );
 };

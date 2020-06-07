@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { Layout, Row, Col } from 'antd';
 
-import { Layout, Row } from 'antd';
-
+import Title from './Title';
 import PokemonList from './PokemonList/PokemonListContainer';
 import PokemonDetail from './PokemonDetail/PokemonDetailContainer';
 import Search from './Search';
@@ -18,13 +18,20 @@ const Pokedex: React.FC = () => {
 
   return (
     <Layout style={{ height: '100%' }}>
-      <Header>
+      <Header style={{ height: 'auto', padding: '15px 50px' }}>
         <Row style={{ height: '100%' }} align="middle" justify="space-between">
-          <Search selectedLanguage={selectedLanguage} setSelectedPokemon={setSelectedPokemon} />
-          <LanguageSelect
-            selectedLanguage={selectedLanguage}
-            setSelectedLanguage={setSelectedLanguage}
-          />
+          <Col span={24} md={8}>
+            <Title>Pokédex</Title>
+          </Col>
+          <Col span={24} md={16}>
+            <Row style={{ height: '100%' }} align="middle" justify="space-between">
+              <Search selectedLanguage={selectedLanguage} setSelectedPokemon={setSelectedPokemon} />
+              <LanguageSelect
+                selectedLanguage={selectedLanguage}
+                setSelectedLanguage={setSelectedLanguage}
+              />
+            </Row>
+          </Col>
         </Row>
       </Header>
       <Layout>
