@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
-import { Layout, Select } from 'antd';
+import { Layout, Row } from 'antd';
 
 import PokemonList from './PokemonList/PokemonListContainer';
 import PokemonDetail from './PokemonDetail/PokemonDetailContainer';
+import Search from './Search';
 import LanguageSelect from './LanguageSelect';
-import { LanguageName } from '../../types/Language';
+import { SupportedLanguageName } from '../../types/Language';
 
 const { Sider, Content, Header } = Layout;
 
@@ -13,15 +14,18 @@ const Pokedex: React.FC = () => {
   const [collapsed, toggleCollapsed] = useState(false);
   const [selectedPokemon, setSelectedPokemon] = useState(0);
 
-  const [selectedLanguage, setSelectedLanguage] = useState<LanguageName>('en');
+  const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguageName>('en');
 
   return (
     <Layout style={{ height: '100%' }}>
       <Header>
-        <LanguageSelect
-          selectedLanguage={selectedLanguage}
-          setSelectedLanguage={setSelectedLanguage}
-        />
+        <Row style={{ height: '100%' }} align="middle" justify="space-between">
+          <Search selectedLanguage={selectedLanguage} setSelectedPokemon={setSelectedPokemon} />
+          <LanguageSelect
+            selectedLanguage={selectedLanguage}
+            setSelectedLanguage={setSelectedLanguage}
+          />
+        </Row>
       </Header>
       <Layout>
         <Sider

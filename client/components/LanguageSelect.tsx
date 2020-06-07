@@ -44,16 +44,14 @@ const LanguageSelect: React.FC<Props> = ({ selectedLanguage, setSelectedLanguage
   }
 
   return (
-    <Row style={{ height: '100%' }} align="middle" justify="end">
-      <Select
-        defaultValue={selectedLanguage}
-        onSelect={(v) => setSelectedLanguage(v as SupportedLanguageName)}
-      >
-        {data?.languages.map((l) => (
-          <Select.Option value={l.name}>{labels[l.name]}</Select.Option>
-        ))}
-      </Select>
-    </Row>
+    <Select
+      defaultValue={selectedLanguage}
+      onSelect={(v) => setSelectedLanguage(v as SupportedLanguageName)}
+    >
+      {data?.languages.map((l) => (
+        <Select.Option value={l.name}>{labels[l.name]}</Select.Option>
+      ))}
+    </Select>
   );
 };
 
