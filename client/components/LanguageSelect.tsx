@@ -5,14 +5,15 @@ import { Select } from 'antd';
 
 import Language, { SupportedLanguageName } from '../../types/Language';
 
-const flags = {
-  'ja-Hrkt': '🇯🇵',
-  ko: '🇰🇷',
-  en: '🇺🇸',
-  fr: '🇫🇷',
-  de: '🇩🇪',
-  es: '🇪🇸',
-  it: '🇮🇹',
+// Native names sourced from https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+const labels = {
+  'ja-Hrkt': '🇯🇵日本語',
+  ko: '🇰🇷 한국어',
+  en: '🇺🇸 English',
+  fr: '🇫🇷 Français',
+  de: '🇩🇪 Deutsch',
+  es: '🇪🇸 Español',
+  it: '🇮🇹 Italiano',
 };
 
 interface Query {
@@ -48,10 +49,7 @@ const LanguageSelect: React.FC<Props> = ({ selectedLanguage, setSelectedLanguage
       onSelect={(v) => setSelectedLanguage(v as SupportedLanguageName)}
     >
       {data?.languages.map((l) => (
-        <Select.Option value={l.name}>
-          {flags[l.name]}
-          {l.iso639.toUpperCase()}
-        </Select.Option>
+        <Select.Option value={l.name}>{labels[l.name]}</Select.Option>
       ))}
     </Select>
   );

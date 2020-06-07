@@ -1,7 +1,9 @@
 import { ObjectType, Field, Int } from 'type-graphql';
-import { Entity, Column, PrimaryColumn, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
-export type SupportedLanguageName = 'ja-Hrkt' | 'ko' | 'fr' | 'de' | 'es' | 'it' | 'en';
+export const SupportedLanguageNames = ['ja-Hrkt', 'ko', 'fr', 'de', 'es', 'it', 'en'] as const;
+
+export type SupportedLanguageName = typeof SupportedLanguageNames[number];
 
 @ObjectType()
 @Entity('language')

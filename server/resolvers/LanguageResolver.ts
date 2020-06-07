@@ -1,19 +1,8 @@
-import { Resolver, Query, FieldResolver, Root } from 'type-graphql';
+import { Resolver, Query } from 'type-graphql';
 import { Repository, In } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
-import Language, { SupportedLanguageName } from '../../types/Language';
-
-// Languages that have translations for all used fields
-const SUPPORTED_LANGUAGES: SupportedLanguageName[] = [
-  'ja-Hrkt',
-  'ko',
-  'en',
-  'fr',
-  'de',
-  'es',
-  'it',
-];
+import Language, { SupportedLanguageNames } from '../../types/Language';
 
 @Resolver(() => Language)
 class LanguageResolver {
@@ -24,7 +13,7 @@ class LanguageResolver {
 
   @Query(() => [Language])
   async languages(): Promise<Language[]> {
-    return this.languageRepository.find({ where: { name: In(SUPPORTED_LANGUAGES) } });
+    return this.languageRepository.find({ where: { name: In([...SupportedLanguageNames]) } });
   }
 }
 
