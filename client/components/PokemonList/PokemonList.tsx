@@ -61,8 +61,8 @@ const PokemonList: React.FC<Props & ContainerProps> = ({
       >
         <Menu
           theme="dark"
-          selectedKeys={[selectedPokemon.toString()]}
-          onSelect={(p) => {
+          selectable={false}
+          onClick={(p) => {
             // MenuItem key is species.id as a string
             onSelect(Number(p.key));
           }}

@@ -8,7 +8,6 @@ import {
   Int,
   Field,
   Args,
-  ObjectType,
 } from 'type-graphql';
 import { Repository, Like } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
