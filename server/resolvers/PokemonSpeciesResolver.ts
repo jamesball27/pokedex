@@ -8,11 +8,14 @@ import {
   Int,
   Field,
   Args,
+  ObjectType,
 } from 'type-graphql';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import PokemonSpecies from '../../types/PokemonSpecies';
+import PokemonSpeciesSearchResult from '../../types/PokemonSpeciesSearchResult';
+import PokemonSpeciesName from '../../types/PokemonSpeciesName';
 import Pokemon from '../../types/Pokemon';
 import GrowthRate from '../../types/GrowthRate';
 import PokemonColor from '../../types/PokemonColor';
@@ -23,11 +26,21 @@ import PokemonSpeciesFlavorText from '../../types/PokemonSpeciesFlavorText';
 import resolveManyToOne from './base/resolveManyToOne';
 import resolveOneToMany from './base/resolveOneToMany';
 import LangArg from './LangArg';
+import { SupportedLanguageName } from '../../types/Language';
 
 @ArgsType()
 class SpeciesArgs {
   @Field(() => Int, { nullable: false })
   id: number;
+}
+
+@ArgsType()
+class SearchArgs {
+  @Field(() => String, { nullable: false })
+  lang: SupportedLanguageName;
+
+  @Field(() => String, { nullable: false })
+  searchTerm: string;
 }
 
 @Resolver(() => PokemonSpecies)
@@ -39,11 +52,31 @@ class PokemonSpeciesResolver {
     private readonly eggGroupRepository: Repository<EggGroup>,
     @InjectRepository(PokemonSpeciesFlavorText)
     private readonly flavorTextRepository: Repository<PokemonSpeciesFlavorText>,
+    @InjectRepository(PokemonSpeciesName)
+    private readonly nameRepository: Repository<PokemonSpeciesName>,
   ) {}
 
   @Query(() => PokemonSpecies)
   async species(@Args() { id }: SpeciesArgs): Promise<PokemonSpecies> {
     return this.pokemonSpeciesRepository.findOneOrFail(id);
+  }
+
+  @Query(() => [PokemonSpeciesSearchResult])
+  async speciesSearch(
+    @Args() { lang, searchTerm }: SearchArgs,
+  ): Promise<PokemonSpeciesSearchResult[]> {
+    return this.nameRepository
+      .find({
+        relations: ['species'],
+        where: {
+          name: Like(`${searchTerm}%`),
+        },
+      })
+      .then((names) =>
+        names
+          .filter((n) => n.language.name === lang)
+          .map((n) => ({ name: n.name, speciesId: n.species.id })),
+      );
   }
 
   @FieldResolver(() => Pokemon)
