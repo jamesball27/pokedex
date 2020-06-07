@@ -32,7 +32,11 @@ class MoveResolver {
       })
       .then((f) => {
         // language is eager-loaded so filter in application
-        return f.find((f) => f.language.name === lang)?.flavorText || 'translation not found';
+        const text =
+          // flavortext has random newlines in db
+          f.find((f) => f.language.name === lang)?.flavorText.replace('\n', ' ') ||
+          'translation not found';
+        return text;
       });
   }
 

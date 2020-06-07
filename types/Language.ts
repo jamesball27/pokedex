@@ -1,6 +1,10 @@
 import { ObjectType, Field, Int } from 'type-graphql';
 import { Entity, Column, PrimaryColumn } from 'typeorm';
 
+export const SupportedLanguageNames = ['ja-Hrkt', 'ko', 'fr', 'de', 'es', 'it', 'en'] as const;
+
+export type SupportedLanguageName = typeof SupportedLanguageNames[number];
+
 @ObjectType()
 @Entity('language')
 class Language {
@@ -11,7 +15,7 @@ class Language {
 
   @Field()
   @Column()
-  name: string;
+  name: SupportedLanguageName;
 
   @Field()
   @Column()
@@ -25,7 +29,7 @@ class Language {
   @Column()
   iso3166: string;
 
-  // language_names
+  localeName: string;
 }
 
 export default Language;

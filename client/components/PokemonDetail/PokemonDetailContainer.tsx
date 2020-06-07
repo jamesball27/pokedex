@@ -5,6 +5,7 @@ import { Empty } from 'antd';
 
 import PokemonSpecies from '../../../types/PokemonSpecies';
 import PokemonDetail from './PokemonDetail';
+import { LanguageName } from '../../../types/Language';
 
 interface Query {
   species: PokemonSpecies;
@@ -47,7 +48,7 @@ const SPECIES_QUERY = gql`
       }
       evolution {
         id
-        localeName
+        localeName(lang: $lang)
         pokemon(default: $defaultPokemon) {
           images {
             sprite
@@ -61,15 +62,16 @@ const SPECIES_QUERY = gql`
 interface Props {
   id?: number;
   setSelectedPokemon: React.Dispatch<React.SetStateAction<number>>;
+  selectedLanguage: LanguageName;
 }
 
-const PokemonDetailContainer: React.FC<Props> = ({ id, setSelectedPokemon }) => {
+const PokemonDetailContainer: React.FC<Props> = ({ id, setSelectedPokemon, selectedLanguage }) => {
   if (!id) {
     return <Empty />;
   }
 
   const { loading, error, data } = useQuery<Query>(SPECIES_QUERY, {
-    variables: { id, lang: 'en', defaultPokemon: true },
+    variables: { id, lang: selectedLanguage, defaultPokemon: true },
   });
 
   return (
