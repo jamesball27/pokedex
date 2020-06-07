@@ -15,7 +15,7 @@ const pokemonTypeColors = {
   normal: 'A8A878',
   poison: 'A040A0',
   psychic: 'F85888',
-  rock: 'B8A038',
+  rock: '786824',
   steel: 'B8B8D0',
   water: '6890F0',
   unknown: '68A090',

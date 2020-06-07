@@ -12,6 +12,7 @@ import {
   purple,
   red,
   volcano,
+  yellow,
 } from '@ant-design/colors';
 import { Name } from '../../../types/Type';
 
@@ -32,7 +33,7 @@ const typeColors: { [K in Name]: string } = {
   normal: grey[0],
   poison: purple[4],
   psychic: magenta[4],
-  rock: lime[4],
+  rock: yellow[8],
   steel: geekblue[2],
   water: geekblue[4],
   unknown: grey[2],
