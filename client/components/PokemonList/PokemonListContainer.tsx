@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/react-hooks';
 
 import Pokedex from '../../../types/Pokedex';
 import PokemonList from './PokemonList';
+import { LanguageName } from '../../../types/Language';
 
 interface Query {
   pokedex: Pokedex;
@@ -32,17 +33,19 @@ export interface ContainerProps {
   collapsed: boolean;
   selectedPokemon: number;
   onSelect: React.Dispatch<React.SetStateAction<number>>;
+  selectedLanguage: LanguageName;
 }
 
 const PokemonListContainer: React.FC<ContainerProps> = ({
   collapsed,
   selectedPokemon,
   onSelect,
+  selectedLanguage,
 }) => {
   const { loading, error, data, fetchMore } = useQuery<Query>(POKEDEX_QUERY, {
     variables: {
       skip: 0,
-      lang: 'en',
+      lang: selectedLanguage,
       defaultPokemon: true,
     },
   });
@@ -82,6 +85,7 @@ const PokemonListContainer: React.FC<ContainerProps> = ({
       collapsed={collapsed}
       selectedPokemon={selectedPokemon}
       onSelect={onSelect}
+      selectedLanguage={selectedLanguage}
     />
   );
 };
