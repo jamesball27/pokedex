@@ -1,11 +1,11 @@
 import React from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
-import { Empty } from 'antd';
 
+import Empty from './Empty';
 import PokemonSpecies from '../../../types/PokemonSpecies';
 import PokemonDetail from './PokemonDetail';
-import { LanguageName } from '../../../types/Language';
+import { SupportedLanguageName } from '../../../types/Language';
 
 interface Query {
   species: PokemonSpecies;
@@ -62,7 +62,7 @@ const SPECIES_QUERY = gql`
 interface Props {
   id?: number;
   setSelectedPokemon: React.Dispatch<React.SetStateAction<number>>;
-  selectedLanguage: LanguageName;
+  selectedLanguage: SupportedLanguageName;
 }
 
 const PokemonDetailContainer: React.FC<Props> = ({ id, setSelectedPokemon, selectedLanguage }) => {
