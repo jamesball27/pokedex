@@ -1,7 +1,7 @@
 import React from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
-import { Select } from 'antd';
+import { Select, Row } from 'antd';
 
 import Language, { SupportedLanguageName } from '../../types/Language';
 
@@ -44,14 +44,16 @@ const LanguageSelect: React.FC<Props> = ({ selectedLanguage, setSelectedLanguage
   }
 
   return (
-    <Select
-      defaultValue={selectedLanguage}
-      onSelect={(v) => setSelectedLanguage(v as SupportedLanguageName)}
-    >
-      {data?.languages.map((l) => (
-        <Select.Option value={l.name}>{labels[l.name]}</Select.Option>
-      ))}
-    </Select>
+    <Row style={{ height: '100%' }} align="middle" justify="end">
+      <Select
+        defaultValue={selectedLanguage}
+        onSelect={(v) => setSelectedLanguage(v as SupportedLanguageName)}
+      >
+        {data?.languages.map((l) => (
+          <Select.Option value={l.name}>{labels[l.name]}</Select.Option>
+        ))}
+      </Select>
+    </Row>
   );
 };
 
